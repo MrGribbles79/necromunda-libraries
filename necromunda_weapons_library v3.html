@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Necromunda Weapons Library</title>
+<style>
+:root{--font-sans:system-ui,-apple-system,sans-serif;--color-bg:#fff;--color-bg2:#f5f5f4;--color-bg3:#eeecea;--color-bg-info:#e6f1fb;--color-bg-danger:#fcebeb;--color-text:#1a1a18;--color-text2:#5f5e5a;--color-text3:#888780;--color-text-info:#185fa5;--color-text-danger:#a32d2d;--color-text-warn:#854f0b;--color-text-ok:#3b6d11;--color-border:rgba(0,0,0,0.12);--color-border2:rgba(0,0,0,0.25);--color-border3:rgba(0,0,0,0.35);--color-border-info:#85b7eb;--r:8px;--rl:12px}
+@media(prefers-color-scheme:dark){:root{--color-bg:#1c1c1a;--color-bg2:#2a2a27;--color-bg3:#232320;--color-bg-info:#042c53;--color-text:#f0ede8;--color-text2:#b4b2a9;--color-text3:#888780;--color-text-info:#85b7eb;--color-border:rgba(255,255,255,0.1);--color-border2:rgba(255,255,255,0.2);--color-border3:rgba(255,255,255,0.3)}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:var(--color-bg3);color:var(--color-text);padding:1rem 1.5rem}
+input,select,textarea,button{font-family:var(--font-sans);color:var(--color-text);background:var(--color-bg);border:0.5px solid var(--color-border2);border-radius:var(--r);padding:6px 10px;outline:none}
+input:focus,select:focus{box-shadow:0 0 0 2px var(--color-border-info)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.app{position:relative}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px}
+.header h1{font-size:20px;font-weight:500}
+.header .sub{font-size:13px;color:var(--color-text2);margin-top:2px}
+.cat-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:1rem}
+.cat-tab{padding:5px 12px;font-size:12px;border:0.5px solid var(--color-border2);border-radius:var(--r);cursor:pointer;background:transparent;color:var(--color-text2)}
+.cat-tab.active{background:var(--color-bg2);color:var(--color-text);border-color:var(--color-border3);font-weight:500}
+.cat-tab:hover:not(.active){background:var(--color-bg2)}
+.toolbar{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
+.toolbar input{flex:1;min-width:160px;font-size:13px}
+.btn{padding:5px 12px;font-size:13px;border:0.5px solid var(--color-border2);border-radius:var(--r);cursor:pointer;background:transparent;color:var(--color-text);white-space:nowrap}
+.btn:hover{background:var(--color-bg2)}
+.btn.primary{background:var(--color-bg-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+.btn.danger{color:var(--color-text-danger);border-color:#f09595}
+.table-wrap{overflow-x:auto;border:0.5px solid var(--color-border);border-radius:var(--rl)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{padding:7px 10px;text-align:left;font-weight:500;font-size:11px;color:var(--color-text2);border-bottom:0.5px solid var(--color-border);background:var(--color-bg2);white-space:nowrap;cursor:pointer;user-select:none;position:relative}
+th:hover{color:var(--color-text)}
+th .sort-icon{margin-left:4px;opacity:0.4;font-size:10px}
+th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--color-text-info)}
+td{padding:7px 10px;border-bottom:0.5px solid var(--color-border);color:var(--color-text);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--color-bg2)}
+tr.main-entry td{background:#FAEEDA}
+tr.main-entry:hover td{background:#FAC775}
+@media(prefers-color-scheme:dark){tr.main-entry td{background:#412402}tr.main-entry:hover td{background:#633806}}
+td.wrap{white-space:normal;max-width:200px}
+.al{display:inline-block;padding:1px 6px;border-radius:var(--r);font-size:11px;font-weight:500}
+.al-C{background:#EAF3DE;color:#3B6D11}
+.al-R{background:#E6F1FB;color:#185FA5}
+.al-I{background:#FAEEDA;color:#854F0B}
+.al-E{background:#EEEDFE;color:#3C3489}
+.al-x{background:var(--color-bg2);color:var(--color-text2)}
+.check-badge{font-size:10px;background:#EF9F27;color:#fff;padding:1px 5px;border-radius:4px;margin-left:4px;vertical-align:middle}
+.empty{text-align:center;padding:2rem;color:var(--color-text2);font-size:14px}
+.count{font-size:12px;color:var(--color-text2)}
+.col-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;align-items:center}
+.col-filters label{font-size:11px;color:var(--color-text2)}
+.col-filters select{font-size:12px;padding:4px 8px}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:.75rem;align-items:center}
+.filter-pill{font-size:11px;padding:3px 10px;border-radius:20px;background:var(--color-bg-info);color:var(--color-text-info);border:0.5px solid var(--color-border-info);cursor:pointer;display:flex;align-items:center;gap:4px}
+.filter-pill:hover{opacity:0.8}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:100;align-items:flex-start;justify-content:center;padding-top:4rem}
+.modal-bg.open{display:flex}
+.modal{background:var(--color-bg);border:0.5px solid var(--color-border);border-radius:var(--rl);padding:1.25rem;width:min(520px,90vw);max-height:80vh;overflow-y:auto}
+.modal h2{font-size:15px;font-weight:500;margin-bottom:1rem}
+.field{margin-bottom:10px}
+.field label{display:block;font-size:11px;color:var(--color-text2);margin-bottom:3px}
+.field input,.field textarea{width:100%;font-size:13px}
+.field textarea{min-height:50px;resize:vertical}
+.field-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:8px}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem}
+</style>
+</head>
+<body>
+<div class="app">
+<h2 class="sr-only">Necromunda weapons library — full weapon reference with column filtering and sorting</h2>
+<div class="header">
+  <div><h1>Necromunda weapons library</h1><div class="sub">All weapons loaded</div></div>
+  <span class="count" id="count-label"></span>
+</div>
+<div class="cat-tabs" id="cat-tabs"></div>
+<div class="toolbar">
+  <input type="text" id="search" placeholder="Search name, traits, notes..." />
+  <button class="btn primary" id="add-btn">+ Add</button>
+</div>
+<div class="col-filters" id="col-filters"></div>
+<div id="active-filters" class="filter-row"></div>
+<div class="table-wrap">
+  <table><thead id="thead"></thead><tbody id="tbody"></tbody></table>
+</div>
+</div>
+
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <h2 id="modal-title">Add weapon</h2>
+    <div id="modal-fields"></div>
+    <div class="modal-actions">
+      <button class="btn" id="m-cancel">Cancel</button>
+      <button class="btn danger" id="m-delete" style="display:none">Delete</button>
+      <button class="btn primary" id="m-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const CATS=["Basic","Pistol","Special","Heavy","Grenade","Booby Trap","Close Combat"];
+const COLS=["Name","S Range","L Range","Acc S","Acc L","S","AP","D","Am","AL","Credits","Traits","Notes"];
+const COL_KEYS=["name","rangeS","rangeL","accS","accL","str","ap","dmg","am","al","credits","traits","notes"];
+const FILTERABLE=["al","str","ap","dmg","am"];
+const FILTER_LABELS={"al":"Availability","str":"Strength","ap":"AP","dmg":"Damage","am":"Ammo"};
+const CHECK=["Araneus-pattern plasma pistol","Shock pistol","Araneus-pattern meltagun","Medusian projectors"];
+const w=(name,rS,rL,aS,aL,s,ap,d,am,al,cr,traits,notes)=>({name,rangeS:rS,rangeL:rL,accS:aS,accL:aL,str:s,ap,dmg:d,am,al,credits:cr,traits,notes});
+const BAKED={
+"Basic":[
+w("Arc rifle",'9"','24"',"+2","-1","5","-","1","6+","R13","100","Blaze, Rapid Fire (1), Shock",""),
+w("Autogun",'8"','24"',"+1","-","3","-","1","4+","C","15","Rapid Fire (1)",""),
+w("- static rounds",'8"','24"',"+1","-","3","-","1","4+","I9","+10","Limited, Shield Breaker, Shock, Rapid Fire (1)","Autogun ammo"),
+w("- warp round",'8"','24"',"+1","-","3","-","1","4+","I10","+15","Cursed, Limited, Single Shot","Autogun ammo"),
+w("Reclaimed autogun",'8"','24"',"+1","-","3","-","1","5+","C","10","Rapid Fire (1)",""),
+w("Boltgun",'12"','24"',"+1","-","4","-1","2","6+","R8","55","Rapid Fire (1)",""),
+w("- gas shells",'12"','24"',"+1","-","-","-","-","6+","R11","+25","Blast (3\"), Gas, Limited, Single Shot","Boltgun ammo"),
+w("- shatter shells",'12"','24"',"+1","-","3","-1","1","6+","R9","+15","Blast (3\"), Limited","Boltgun ammo"),
+w("Combat shotgun (salvo)",'4"','12"',"+1","-","4","-","2","4+","R7","70","Knockback, Rapid Fire (1)",""),
+w("Combat shotgun (shredder)","-","T","-","-","2","-","1","4+","R7","+0","Scattershot, Template",""),
+w("Combat shotgun (firestorm)","-","T","-","-","5","-1","1","6+","R8","+30","Blaze, Limited, Template",""),
+w("- Combat shotgun (gas shells)",'4"','18"',"+1","-","-","-","-","6+","R11","+25","Blast (3\"), Gas, Limited, Single Shot",""),
+w("- Combat shotgun (shatter shells)",'4"','18"',"+1","-","3","-1","1","5+","R9","+15","Blast (3\"), Limited",""),
+w("Kroot long rifle (ranged)",'12"','24"',"+1","-","4","-","1","4+","R10","30","Esoteric, Knockback, Plentiful",""),
+w("Kroot long rifle (melee)","E",'2"',"-","-","S+1","-","1","-","R10","+0","Disarm, Esoteric, Melee, Versatile",""),
+w("Lasgun",'18"','24"',"+1","-","3","-","1","2+","C","15","Plentiful",""),
+w("- hotshot las pack",'18"','24"',"+1","-","4","-1","1","4+","C","+20","","Lasgun upgrade"),
+w("- focusing crystal",'18"','24"',"+1","-","3","-2","1","3+","R10","+30","Unstable","Lasgun upgrade"),
+w("Rak'gol razor gun",'6"','20"',"-","-1","-","-2","-","6+","I11","60","Esoteric, Rapid Fire (2), Toxin",""),
+w("Sawn-off shotgun (scatter)",'4"','8"',"+2","-","3","-","1","6+","C","15","Plentiful, Scattershot",""),
+w("- Sawn-off shotgun (solid)",'4"','8"',"-","-2","4","-","2","6+","C","+5","Knockback, Plentiful",""),
+w("- Sawn-off shotgun (gas)",'4"','8"',"+1","-","-","-","-","6+","R11","+25","Blast (3\"), Gas, Limited, Single Shot",""),
+w("- Sawn-off shotgun (shatter)",'4"','8"',"+1","-","3","-1","1","5+","R9","+15","Blast (3\"), Limited",""),
+w("Shotgun (solid)",'8"','16"',"+1","-","4","-","2","4+","C","30","Knockback",""),
+w("- Shotgun (scatter)",'4"','8"',"+2","-","2","-","1","4+","C","+0","Scattershot",""),
+w("- Shotgun (executioner)",'4"','16"',"-1","+1","4","-2","2","6+","R9","+20","Knockback, Limited",""),
+w("- Shotgun (inferno)",'4"','16"',"+1","-","4","-","2","5+","R8","+15","Blaze, Limited",""),
+w("- Shotgun (gas shells)",'4"','18"',"+1","-","-","-","-","6+","R11","+25","Blast (3\"), Gas, Limited, Single Shot",""),
+w("- Shotgun (shatter shells)",'4"','18"',"+1","-","3","-1","1","5+","R9","+15","Blast (3\"), Limited",""),
+w("Sling gun",'6"','12"',"+2","-","4","-2","1","5+","R11","55","Esoteric, Rapid Fire (1), Scarce",""),
+w("Stake-crossbow",'5"','15"',"+1","-","3","-","1","4+","R9","60","Hexagrammatic, Silent",""),
+w("Throwing knives","Sx2","Sx4","-","-1","-","-1","-","5+","C","10","Scarce, Silent, Toxin",""),
+w("Warpstorm bolter",'12"','24"',"+1","-","4","-1","2","6+","I10","60","Cursed, Esoteric, Rapid Fire (1), Scarce",""),
+w("Cawdor charger/autogun (charger)","E",'2"',"-","-","S+1","-","1","-","-","-","Lance, Melee, Unwieldy, Versatile","Cawdor only"),
+w("Cawdor charger/autogun (gun)",'8"','24"',"+1","-","3","-","1","5+","-","-","Rapid Fire (1)","Cawdor only"),
+w("Cawdor charger/blunderbuss (charger)","E",'2"',"-","-","S+1","-","1","-","-","-","Lance, Melee, Unwieldy, Versatile","Cawdor only"),
+w("Cawdor charger/blunderbuss (grape shot)","-","T","-","-","2","-","1","6+","-","-","Plentiful, Scattershot, Template","Cawdor only"),
+w("Cawdor charger/blunderbuss (purgation shot)","-","T","-","-","3","-","1","6+","-","-","Blaze, Scarce, Template","Cawdor only"),
+w("Cawdor charger/flamer (charger)","E",'2"',"-","-","S+1","-","1","-","-","-","Lance, Melee, Unwieldy, Versatile","Cawdor only"),
+w("Cawdor charger/flamer (flamer)","-","T","-","-","4","-1","1","5+","-","-","Blaze, Template","Cawdor only"),
+],
+"Pistol":[
+w("Autopistol",'4"','12"',"+1","-","3","-","1","4+","C","10","Rapid Fire (1), Sidearm",""),
+w("- static round",'4"','12"',"+1","-","3","-","1","4+","I9","+10","Limited, Rapid Fire (1), Shield Breaker, Shock, Sidearm",""),
+w("- warp round",'4"','12"',"+1","-","3","-","1","4+","I10","+15","Cursed, Limited, Sidearm, Single Shot",""),
+w("Araneus-pattern plasma pistol",'6"','12"',"+1","-","7","-2","3","5+","E","-","Scarce, Sidearm","CHECK stats"),
+w("Bolt pistol",'6"','12"',"+1","-","4","-1","2","6+","R8","45","Sidearm",""),
+w("- gas shells",'6"','12"',"+1","-","-","-","-","6+","R11","+25","Blast (3\"), Gas, Limited, Single Shot",""),
+w("- shatter shells",'6"','12"',"+1","-","3","-1","1","6+","R9","+15","Blast (3\"), Limited",""),
+w("Compact autopistol",'4"','12"',"+1","-","2","-","1","4+","E","-","Rapid Fire (1), Scarce","Gun Skull only"),
+w("Combi autopistol/hand flamer (primary)",'4"','12"',"+1","-","3","-","1","4+","-","-","Combi, Rapid Fire (1), Sidearm",""),
+w("Combi autopistol/hand flamer (secondary)","-","T","-","-","3","-","1","5+","R10","65","Blaze, Combi, Template, Unstable",""),
+w("- Combi autopistol/plasma pistol",'6"','12"',"+2","-","5","-1","2","5+","R10","50","Combi, Scarce, Sidearm",""),
+w("Combi bolt/hand flamer (primary)",'6"','12"',"+1","-","4","-1","2","6+","-","-","Combi, Sidearm",""),
+w("Combi bolt/hand flamer (secondary)","-","T","-","-","3","-","1","5+","R11","110","Blaze, Combi, Template, Unstable",""),
+w("- Combi bolt/plasma pistol",'6"','12"',"+2","-","5","-1","2","5+","R11","80","Combi, Scarce, Sidearm",""),
+w("Combi stub/plasma (primary)",'6"','12"',"+2","-","3","-","1","4+","-","-","Combi, Plentiful, Sidearm",""),
+w("- Combi stub/plasma (secondary)",'6"','12"',"+2","-","5","-1","2","5+","R8","40","Combi, Scarce, Sidearm",""),
+w("Grav pistol",'6"','12"',"+1","-","*","-1","2","5+","R11","70","Blast (3\"), Concussion, Graviton Pulse",""),
+w("Hand crossbow",'8"','12"',"+1","-","3","-","1","6+","C","-","Plentiful, Sidearm, Silent",""),
+w("Hand flamer","-","T","-","-","3","-","1","5+","R8","75","Blaze, Template",""),
+w("Inferno pistol",'6"','9"',"-","-","8","-3","2","6+","R12","145","Melta, Scarce, Sidearm",""),
+w("Ironhead autopistol",'4"','12"',"+1","-","3","-","1","4+","E","-","Rapid Fire (2), Sidearm","Ironhead Squat Prospectors"),
+w("Laspistol",'8"','12"',"+1","-","3","-","1","2+","C","10","Plentiful, Sidearm",""),
+w("- hotshot las pack",'8"','12"',"+1","-","4","-1","1","4+","C","+20","Sidearm",""),
+w("- focusing crystal",'8"','12"',"+1","-","3","-2","1","3+","R10","+30","Sidearm, Unstable",""),
+w("Las sub-carbine",'4"','12"',"+1","-","3","-","1","4+","E","-","Plentiful, Rapid Fire (1), Sidearm","Ironhead Squat Prospectors"),
+w("Needle pistol",'4"','9"',"+2","-","-","-1","-","6+","R9","30","Scarce, Sidearm, Silent, Toxin",""),
+w("- chem darts",'4"','9"',"+2","-","-","-","-","6+","C","+10","Chem Delivery, Sidearm, Silent",""),
+w("Plasma pistol (low)",'6"','12"',"+2","-","5","-1","2","5+","R9","50","Scarce, Sidearm",""),
+w("- Plasma pistol (maximal)",'6"','12"',"+1","-","7","-2","3","5+","R9","+0","Scarce, Sidearm, Unstable",""),
+w("Reclaimed autopistol",'4"','12"',"+1","-","3","-","1","5+","C","5","Rapid Fire (1), Sidearm",""),
+w("Shock pistol",'4"','8"',"+1","-","3","-1","1","5+","E","-","Incapacitate, Shock, Sidearm","CHECK stats"),
+w("Stub gun",'6"','12"',"+2","-","3","-","1","4+","C","5","Plentiful, Sidearm",""),
+w("- dumdum rounds",'5"','10"',"+1","-","4","-","1","4+","R7","+5","Limited, Sidearm",""),
+w("- static round",'6"','12"',"+2","-","3","-","1","4+","I9","+10","Limited, Knockback, Shield Breaker, Shock",""),
+w("- warp round",'6"','12"',"+2","-","3","-","1","4+","I10","+15","Cursed, Limited, Sidearm, Single Shot",""),
+w("Web pistol","-","T","-","-","4","-","-","6+","R9","90","Silent, Template, Web",""),
+w("Withertouch pistol",'6"','9"',"-","-","3","-","1","6+","I13","55","Esoteric, Melta, Sidearm, Silent",""),
+],
+"Special":[
+w("Araneus-pattern meltagun",'6"','12"',"+1","-","8","-4","3","4+","E","-","Melta","CHECK stats"),
+w("Balefire thrower","-","T","-","-","4","-1","2","5+","I9","120","Blaze, Cursed, Esoteric, Template",""),
+w("Combi autogun/flamer (primary)",'8"','24"',"+1","-","3","-","1","4+","-","-","Combi, Rapid Fire (1)",""),
+w("- Combi autogun/flamer (secondary)","-","T","-","-","4","-1","1","5+","R10","110","Blaze, Combi, Template, Unstable",""),
+w("Combi bolter/flamer (primary)",'12"','24"',"+1","-","4","-1","2","6+","-","-","Combi, Rapid Fire (1)",""),
+w("- Combi bolter/flamer (secondary)","-","T","-","-","4","-1","1","5+","R8","180","Blaze, Combi, Template, Unstable",""),
+w("- Combi bolter/grenade launcher",'6"','24"',"-1","-","3","-","1","6+","R8","60","Blast (3\"), Combi, Knockback",""),
+w("- Combi bolter/melta",'6"','12"',"+1","-","8","-4","3","4+","R12","170","Combi, Melta, Scarce",""),
+w("- Combi bolter/needler",'9"','18"',"+1","-","-","-1","-","6+","R10","90","Combi, Scarce, Silent, Toxin",""),
+w("- Combi bolter/plasma gun",'12"','24"',"+2","-","5","-1","2","5+","R10","115","Combi, Rapid Fire (1), Scarce",""),
+w("Disintegration gun",'8"','24"',"-","-1","5","-3","2","6+","-","-","Rapid Fire (1), Scarce, Sever, Unstable",""),
+w("Flamer","-","T","-","-","4","-1","1","5+","R7","140","Blaze, Template",""),
+w("Grav gun",'9"','18"',"+1","-","*","-1","2","5+","R11","120","Blast (3\"), Concussion, Graviton Pulse",""),
+w("Grenade launcher (frag)",'6"','24"',"-1","-","3","-","1","6+","R8","65","Blast (3\"), Knockback","frag default"),
+w("- krak grenades",'6"','24"',"-1","-","6","-2","2","6+","-","+0","",""),
+w("- choke gas",'6"','24"',"-1","-","-","-","-","5+","R9","+35","Blast (3\"), Gas, Limited",""),
+w("- flares",'6"','24"',"-1","-","-","-","-","4+","C","+30","Blast (3\"), Flare",""),
+w("- photon flash",'6"','24"',"-","-","-","-","-","5+","R9","+15","Blast (5\"), Flash",""),
+w("- plasma grenades",'6"','24"',"-1","-","5","-1","2","6+","R12","+100","Blast (3\"), Unstable",""),
+w("- scare gas",'6"','24"',"-1","-","-","-","-","6+","R10","+45","Blast (3\"), Fear, Gas, Limited",""),
+w("- smoke",'6"','24"',"-1","-","-","-","-","4+","C","+15","Blast (*), Smoke",""),
+w("- stun rounds",'6"','24"',"-","-","2","-1","1","4+","R8","+25","Concussion, Rapid Fire (1)",""),
+w("Grenade launcher array (choke gas)",'6"','18"',"-1","-","-","-","-","5+","-","-","Blast (3\"), Gas, Limited",""),
+w("- Grenade launcher array (photon flash)",'6"','18"',"-","-","-","-","-","5+","-","-","Blast (5\"), Flash",""),
+w("- Grenade launcher array (scare gas)",'6"','18"',"-1","-","-","-","-","6+","-","-","Blast (3\"), Fear, Gas, Limited",""),
+w("- Grenade launcher array (smoke)",'6"','18"',"-1","-","-","-","-","4+","-","-","Blast (*), Smoke",""),
+w("- Grenade launcher array (stun)",'6"','18"',"-","-","2","-1","1","4+","-","-","Concussion",""),
+w("Hrud fusil (low)",'9"','18"',"-","-","6","-1","2","5+","I9","120","Esoteric, Rapid Fire (1), Scarce",""),
+w("- Hrud fusil (maximal)",'12"','24"',"+1","-","8","-2","3","5+","I9","+0","Esoteric, Scarce, Unstable",""),
+w("Ironhead flamer","-","T","-","-","4","-1","1","5+","E","-","Blaze, Firestorm (1), Template","Ironhead Squat Prospectors"),
+w("Kai hellspear",'6"','18"',"-","-","3","-3","1","3+","I12","90","Esoteric, Impale, Pulverise, Rending",""),
+w("Long las",'18"','36"',"-","+1","4","-","1","2+","C","20","Plentiful",""),
+w("- focusing crystal",'18"','36"',"-","+1","4","-2","1","3+","R10","+30","Unstable",""),
+w("Long rifle",'24"','48"',"-","+1","4","-1","1","4+","R7","30","Knockback",""),
+w("- static round",'24"','48"',"-","+1","4","-1","1","4+","I10","+15","Limited, Knockback, Shield Breaker, Shock",""),
+w("- warp round",'24"','48"',"-","+1","4","-1","1","4+","I11","+20","Cursed, Knockback, Limited, Single Shot",""),
+w("Medusian projectors",'4"','12"',"-1","-","4","-","1","4+","E","-","Flash","CHECK stats"),
+w("Meltagun",'6"','12"',"+1","-","8","-4","3","4+","R11","135","Melta, Scarce",""),
+w("Necrotic beamer (ranged)",'6"','12"',"-","-1","6","-1","3","6+","I12","110","Esoteric, Melta, Scarce, Scattershot",""),
+w("- Necrotic beamer (melee)","E",'3"',"+1","-","3","-","3","-","I12","+0","Esoteric, Melee, Melta, Versatile",""),
+w("Needle rifle",'9"','18"',"+2","-","-","-2","-","6+","R9","40","Scarce, Silent, Toxin",""),
+w("- chem darts",'9"','18"',"+2","-","-","-","-","6+","C","+10","Chem Delivery, Silent",""),
+w("Neural flayer (short)","-","T","-","-","-","-","-","4+","I13","90","Concussion, Esoteric, Flash, Template",""),
+w("- Neural flayer (full)","-","T","-","-","-","-","-","6+","I13","+0","Concussion, Esoteric, Fear, Flash, Gas, Pulverise, Template",""),
+w("Plasma gun (low)",'12"','24"',"+2","-","5","-1","2","5+","R9","100","Rapid Fire (1), Scarce",""),
+w("- Plasma gun (maximal)",'12"','24"',"+1","-","7","-2","3","5+","R9","+0","Scarce, Unstable",""),
+w("Rad gun","-","T","-","-","2","-2","1","4+","E","-","Rad-phage, Template","Ironhead Squat Prospectors"),
+w("Storm bolter",'12"','24"',"+1","-","4","-1","2","6+","R12","95","Rapid Fire (2), Scarce",""),
+w("Web gun","-","T","-","-","5","-","-","5+","R9","125","Silent, Template, Web",""),
+w("Yu'vath puzzle box",'3"','6"',"+2","-","2","-1","1","3+","I15","150","Esoteric, Rapid Fire (3), Scattershot, Unwieldy",""),
+],
+"Heavy":[
+w("Autocannon*",'24"','48"',"-","-","7","-2","2","4+","R10","160","Knockback, Rapid Fire (1), Unwieldy",""),
+w("Concussion cannon",'9"','18"',"+1","-","4","-1","2","4+","-","-","Blast (3\"), Concussion, Knockback, Seismic",""),
+w("Demiurg energy drill*",'3"','9"',"+2","-","7","-4","2","6+","I9","100","Esoteric, Impale, Scarce, Unwieldy",""),
+w("Grav cannon*",'20"','80"',"-1","+1","*","-1","2","5+","R10","140","Blast (5\"), Concussion, Graviton Pulse, Unwieldy",""),
+w("Harpoon launcher*",'6"','18"',"+2","-","5","-3","1","5+","R9","110","Drag, Impale, Scarce",""),
+w("Heavy bolter*",'18"','36"',"+1","-","5","-2","2","6+","R10","160","Rapid Fire (2), Unwieldy",""),
+w("Heavy flamer*","-","T","-","-","5","-2","1","5+","R10","195","Blaze, Template, Unwieldy",""),
+w("Heavy stubber*",'20"','40"',"-","-1","4","-1","1","4+","R7","130","Rapid Fire (2), Unwieldy",""),
+w("- static round",'20"','40"',"-","-","4","-1","1","4+","I10","+15","Limited, Rapid Fire (2), Shield Breaker, Shock, Unwieldy",""),
+w("- warp round",'20"','40"',"-","-","4","-1","1","4+","I11","+20","Cursed, Limited, Single Shot, Unwieldy",""),
+w("Ironhead heavy stubber*",'20"','40"',"-","-1","4","-1","1","4+","E","-","Rapid Fire (3), Unwieldy","Ironhead Squat Prospectors"),
+w("Lascannon*",'24"','48"',"-","+1","10","-3","3","4+","R10","155","Knockback, Unwieldy",""),
+w("Mining laser*",'18"','24"',"-","-1","9","-3","3","3+","R9","125","Unwieldy",""),
+w("Missile launcher* (frag)",'24"','48"',"+1","-","4","-1","1","6+","R10","165","Blast (5\"), Knockback, Unwieldy",""),
+w("- Missile launcher* (krak)",'24"','48"',"+1","-","6","-2","3","6+","R10","+0","Unwieldy",""),
+w("Mole launcher*",'20"','60"',"-1","-","6","-2","1","5+","R11","100","Blast (3\"), Burrowing, Concussion, Unwieldy",""),
+w("Multi-melta*",'12"','24"',"+1","-","8","-4","3","4+","R11","180","Blast (3\"), Melta, Scarce, Unwieldy",""),
+w("Plasma cannon* (low)",'18"','36"',"+1","-","6","-1","2","5+","R11","130","Rapid Fire (1), Scarce, Unwieldy",""),
+w("- Plasma cannon* (maximal)",'18"','36"',"+1","-","8","-2","3","5+","R11","+0","Blast (3\"), Scarce, Unstable, Unwieldy",""),
+w("Seismic cannon* (short)",'12"','24"',"-","-1","6","-1","2","5+","R10","140","Knockback, Rapid Fire (1), Seismic, Unwieldy",""),
+w("- Seismic cannon* (long)",'12"','24"',"-1","-","3","-","1","5+","R10","+0","Knockback, Rapid Fire (2), Seismic, Unwieldy",""),
+w("SLHG assault ram (ram)","E",'2"',"-","-","S+2","-1","2","-","-","-","Knockback, Melee, Pulverise, Versatile","Sledgehammer"),
+w("- SLHG assault ram (choke gas)",'6"','24"',"-1","-","-","-","-","5+","-","-","Blast (3\"), Gas, Limited",""),
+w("- SLHG assault ram (frag)",'6"','24"',"-1","-","3","-","1","6+","-","-","Blast (3\"), Knockback",""),
+w("Twin-linked concussion cannon*",'9"','18"',"+1","-","4","-1","2","4+","E","-","Blast (3\"), Concussion, Knockback, Seismic, Twin-linked","Ash Waste Arachni-rig"),
+w("Twin-linked heavy las carbine",'15"','30"',"+1","-","4","-","1","4+","E","-","Plentiful, Rapid Fire (3), Twin-linked","Ash Waste Arachni-rig"),
+w("Twin-linked heavy stubber*",'20"','40"',"-","-1","4","-1","1","4+","E","-","Rapid Fire (2), Twin-linked, Unwieldy","Ash Waste Arachni-rig"),
+],
+"Grenade":[
+w("Blasting charge","-","Sx2","-","-","5","-1","2","5+","R8","35","Blast (5\"), Grenade, Knockback",""),
+w("Choke gas grenade","-","Sx3","-","-","-","-","-","5+","R9","50","Blast (3\"), Gas, Grenade",""),
+w("Demo charge","-","Sx2","-","-","6","-3","3","*","R12","50","Blast (5\"), Grenade, Single Shot",""),
+w("Flares","-","Sx3","-","-","-","-","-","4+","C","20","Blast (5\"), Flare, Grenade",""),
+w("Frag grenade","-","Sx3","-","-","3","-","1","4+","C","30","Blast (3\"), Grenade, Knockback",""),
+w("Incendiary charge","-","Sx3","-","-","3","-","1","5+","R7","40","Blast (5\"), Blaze, Grenade",""),
+w("Krak grenade","-","Sx3","-","-1","6","-2","2","4+","R8","45","Demolitions, Grenade",""),
+w("Melta bomb","-","Sx3","-","-1","8","-4","3","6+","R11","60","Demolitions, Grenade, Melta",""),
+w("Mindflect shard","-","Sx3","-","-","3","-1","1","4+","I10","50","Blast (5\"), Cursed, Esoteric, Grenade",""),
+w("Phosphor canister","-","Sx3","-","-1","4","-3","2","5+","R10","40","Blaze, Blast (3\"), Grenade",""),
+w("Photon flash grenade","-","Sx3","-","-","-","-","-","5+","R9","15","Blast (5\"), Flash, Grenade",""),
+w("Plasma grenades","-","Sx3","-","-","5","-1","2","4+","R10","90","Blast (3\"), Grenade, Unstable",""),
+w("Scare gas grenade","-","Sx3","-","-","-","-","-","6+","R10","45","Blast (3\"), Fear, Gas, Grenade",""),
+w("Shard grenades","-","Sx3","-","-","2","-2","1","4+","I9","30","Blast (5\"), Cursed, Esoteric, Grenade, Rending",""),
+w("Smoke grenade","-","Sx3","-","-","-","-","-","4+","C","15","Blast (*), Grenade, Smoke",""),
+w("Stun grenade","-","Sx3","-","-","2","-1","1","4+","C","25","Blast (3\"), Concussion, Grenade",""),
+],
+"Booby Trap":[
+w("Frag trap","-","-","-","-","3","-","1","*","C","20","Blast (5\"), Knockback, Single Shot",""),
+w("Gas trap","-","-","-","-","-","-","-","*","R8","40","Blast (5\"), Gas, Single Shot",""),
+w("Melta trap","-","-","-","-","8","-4","3","*","R10","50","Blast (5\"), Melta, Single Shot",""),
+],
+"Close Combat":[
+w("Fighting knife","E","-","-","-","S-1","-","1","-","C","15","Backstab, Melee",""),
+w("Power knife","E","-","-","-","S+1","-2","1","-","R9","25","Backstab, Melee, Power",""),
+w("Stiletto knife","E","-","-","-","-","-","-","-","R9","20","Melee, Toxin",""),
+w("Axe","E","-","-","-","S+1","-","1","-","C","10","Disarm, Melee",""),
+w("Chainaxe","E","-","-","+1","S+1","-1","1","-","R9","30","Disarm, Melee, Parry, Rending",""),
+w("Cleaver","E","-","-","-","S+1","-1","1","-","C","20","Disarm, Melee",""),
+w("Chainsword","E","-","-","+1","S","-1","1","-","R8","25","Melee, Parry, Rending",""),
+w("Desire's needle","E","-","-","+1","S+2","-1","-","-","I9","50","Chem Delivery, Esoteric, Melee, Power, Toxin",""),
+w("Digi laser","E",'3"',"-","-","1","-","1","6+","R10","25","Digi, Melee, Versatile",""),
+w("Drill (Techmite Autoveyor)","E","-","-","-","3","-1","1","-","E","-","Melee","Techmite Autoveyor"),
+w("Flail","E","-","-","+1","S+1","-","1","-","C","20","Entangle, Melee",""),
+w("Frag lance (primed)","E",'2"',"+1","-","4","-1","1","-","-","-","Blast (3\"), Lance-bomb, Knockback, Melee, Versatile",""),
+w("- Frag lance (spent)","E",'2"',"+1","-","S","-","1","-","-","-","Lance, Melee, Versatile",""),
+w("Gem extractor","E","-","-","-","S+1","-1","2","-","E","-","Melee, Power Pack","Ironhead Squat Prospectors"),
+w("Goredrinker axe","E","-","-","-","S+3","-1","2","-","I9","40","Esoteric, Melee, Reckless, Rending",""),
+w("Heavy club","E","-","-","-","S","-","2","-","C","15","Concussion, Melee",""),
+w("Heavy shock baton","E","-","-","-","S+1","-","2","-","-","-","Concussion, Melee, Parry, Shock",""),
+w("Hex'iron blade","E","-","-","-","S+1","-3","1","-","I9","25","Cursed, Esoteric, Melee, Parry",""),
+w("Krak lance (primed)","E",'2"',"+1","-","6","-2","3","-","-","-","Lance-bomb, Melee, Versatile",""),
+w("- Krak lance (spent)","E",'2"',"+1","-","S","-","1","-","-","-","Lance, Melee, Versatile",""),
+w("Las cutter","E",'2"',"+1","-","9","-3","2","6+","R10","85","Melee, Scarce, Versatile",""),
+w("Lightning claw","E","-","-","+1","S+1","-2","1","-","R11","70","Melee, Parry, Power, Rending",""),
+w("Maul (club)","E","-","-","-","S","+1","2","-","C","10","Melee",""),
+w("Pacifier assault claw","E","-","-","-","S-1","-","2","-","-","-","Melee, Pulverise",""),
+w("Polearm*","E",'2"',"-1","-","S+1","-","1","-","R9","30","Melee, Unwieldy, Versatile","Two-handed"),
+w("Power axe","E","-","-","-","S+2","-2","1","-","R8","35","Disarm, Melee, Power",""),
+w("Power claw","E","-","-","-","S","-1","2","-","R11","55","Melee, Power, Pulverise",""),
+w("Power fist","E","-","-","-","S+3","-3","3","-","R11","100","Melee, Power, Pulverise, Unwieldy",""),
+w("Power hammer","E","-","-","-","S+1","-1","2","-","R8","45","Melee, Power",""),
+w("Power maul","E","-","-","-","S+2","-1","1","-","R8","30","Melee, Power",""),
+w("Power pick","E","-","-","-","S+1","-3","1","-","R8","40","Melee, Power, Pulverise",""),
+w("Power sword","E","-","-","-","S+1","-2","1","-","R9","50","Melee, Parry, Power",""),
+w("Sanction mancatcher (melee)","E","-","-","-","S-1","-","1","-","-","-","Entangle, Melee",""),
+w("- Sanction mancatcher (ranged)","-","T","-","-","5","-","-","5+","-","-","Silent, Template, Web",""),
+w("Servo arm (Arachni-rig)","E",'3"',"-","+1","S","-","1","-","E","-","Melee, Versatile","Ash Waste Arachni-rig"),
+w("Servo claw","E","-","-","-","S+2","-","2","-","R10","35","Melee",""),
+w("Shock baton","E","-","-","-","S","-","1","-","R8","30","Melee, Parry, Shock",""),
+w("Shock bite (Cyber-mastiff)","E","-","-","-","S-1","-","1","-","-","-","Melee, Rending, Shock","Hardcase Cyber-mastiff"),
+w("Shock stave","E",'2"',"-","-","S+1","-","1","-","R9","25","Melee, Shock, Versatile",""),
+w("Stiletto sword","E","-","-","-","-","-1","-","-","R9","35","Melee, Parry, Toxin",""),
+w("Stun lance (primed)","E",'2"',"+1","-","2","-1","1","-","-","-","Blast (3\"), Lance-bomb, Concussion, Melee, Versatile",""),
+w("- Stun lance (spent)","E",'2"',"+1","-","S","-","1","-","-","-","Lance, Melee, Versatile",""),
+w("Sword","E","-","-","+1","S","-1","1","-","R6","20","Melee, Parry",""),
+w("Tenebrous scourge","E",'3"',"-","-","S+3","-","1","-","I10","60","Entangle, Esoteric, Melee, Power, Versatile",""),
+w("Thunder hammer","E","-","-","-","S+1","-1","3","-","R11","70","Melee, Power, Shock",""),
+w("Two-handed axe*","E","-","-","-1","S+2","-","2","-","C","25","Melee, Unwieldy","Two-handed"),
+w("Two-handed hammer*","E","-","-","-1","S+1","-","3","-","C","35","Knockback, Melee, Unwieldy","Two-handed"),
+w("Chain glaive*","E",'2"',"-1","-","S+2","-2","2","-","R7","60","Melee, Unwieldy, Versatile","Two-handed"),
+w("Greatsword*","E",'1"',"-","+1","S+1","-1","1","-","R10","40","Melee, Sever, Unwieldy, Versatile","Two-handed"),
+w("Heavy rock cutter*","E","-","-","-","S+4","-4","3","-","R9","135","Melee, Unwieldy","Two-handed"),
+w("Heavy rock drill*","E","-","-","-","S+2","-3","2","-","R9","90","Melee, Pulverise, Unwieldy","Two-handed"),
+w("Heavy rock saw*","E","-","-","+1","S+3","-3","2","-","R9","120","Melee, Rending, Unwieldy","Two-handed"),
+w("Whip","E",'3"',"-1","-","S","-","1","-","C","15","Entangle, Melee, Versatile",""),
+w("Whisperbane knife","E","-","-","+1","S","-","1","-","I11","30","Backstab, Esoteric, Melee, Scattershot",""),
+w("Xenarch death-arc","E",'5"',"+1","-","3","-","1","2+","I9","75","Esoteric, Melee, Plentiful, Rapid Fire (2), Shock, Versatile",""),
+]
+};
+
+let state={cat:"Basic",search:"",colFilters:{},sortCol:null,sortDir:1,editIdx:null,data:{}};
+
+function init(){
+  for(const k of CATS) state.data[k]=[...BAKED[k]];
+  loadFromStorage();
+}
+
+async function loadFromStorage(){
+  for(const k of CATS){
+    try{const r=await window.storage.get("necro_final_"+k);if(r)state.data[k]=JSON.parse(r.value);}catch(e){}
+  }
+  render();
+}
+
+async function save(k){try{await window.storage.set("necro_final_"+k,JSON.stringify(state.data[k]));}catch(e){}}
+
+function alClass(al){
+  if(!al||al==="-")return"al al-x";
+  if(al==="E")return"al al-E";
+  if(al.startsWith("I"))return"al al-I";
+  if(al.startsWith("R"))return"al al-R";
+  if(al==="C"||al==="c")return"al al-C";
+  return"al al-x";
+}
+
+function getUniqueVals(key){
+  const vals=new Set();
+  (state.data[state.cat]||[]).forEach(w=>{
+    const v=(w[key]||"-").trim();
+    if(v&&v!=="-")vals.add(v);
+  });
+  return [...vals].sort();
+}
+
+function render(){renderCatTabs();renderColFilters();renderActiveFilters();renderTable();}
+
+function renderCatTabs(){
+  document.getElementById("cat-tabs").innerHTML=CATS.map(c=>`<button class="cat-tab${state.cat===c?" active":""}" onclick="switchCat('${c}')">${c} <span style="font-size:10px;opacity:0.7">${state.data[c].length}</span></button>`).join("");
+}
+
+function renderColFilters(){
+  const el=document.getElementById("col-filters");
+  el.innerHTML=`<span style="font-size:11px;color:var(--color-text2);margin-right:4px">Filter by:</span>`+
+  FILTERABLE.map(key=>{
+    const vals=getUniqueVals(key);
+    const cur=state.colFilters[key]||"";
+    return `<select style="font-size:12px;padding:4px 8px" onchange="setColFilter('${key}',this.value)">
+      <option value="">${FILTER_LABELS[key]}</option>
+      ${vals.map(v=>`<option value="${v}"${v===cur?" selected":""}>${v}</option>`).join("")}
+    </select>`;
+  }).join("");
+}
+
+function renderActiveFilters(){
+  const el=document.getElementById("active-filters");
+  const active=Object.entries(state.colFilters).filter(([k,v])=>v);
+  if(!active.length){el.innerHTML="";return;}
+  el.innerHTML=active.map(([k,v])=>`<span class="filter-pill" onclick="clearColFilter('${k}')"><span>${FILTER_LABELS[k]}: ${v}</span><span style="font-size:12px;margin-left:2px">×</span></span>`).join("")+
+  `<button class="btn" style="font-size:11px;padding:2px 8px" onclick="clearAllFilters()">Clear all</button>`;
+}
+
+function setColFilter(key,val){state.colFilters[key]=val;renderColFilters();renderActiveFilters();renderTable();}
+function clearColFilter(key){delete state.colFilters[key];renderColFilters();renderActiveFilters();renderTable();}
+function clearAllFilters(){state.colFilters={};renderColFilters();renderActiveFilters();renderTable();}
+
+function getFiltered(){
+  return (state.data[state.cat]||[]).filter(w=>{
+    const q=state.search.toLowerCase();
+    if(q&&!Object.values(w).some(v=>String(v).toLowerCase().includes(q)))return false;
+    for(const[key,val]of Object.entries(state.colFilters)){
+      if(val&&String(w[key]||"").trim()!==val)return false;
+    }
+    return true;
+  });
+}
+
+function getSorted(rows){
+  if(!state.sortCol)return rows;
+  const key=COL_KEYS[state.sortCol];
+  return [...rows].sort((a,b)=>{
+    const av=String(a[key]||"").toLowerCase();
+    const bv=String(b[key]||"").toLowerCase();
+    const an=parseFloat(av.replace(/[^0-9.\-]/g,""));
+    const bn=parseFloat(bv.replace(/[^0-9.\-]/g,""));
+    if(!isNaN(an)&&!isNaN(bn))return(an-bn)*state.sortDir;
+    return av.localeCompare(bv)*state.sortDir;
+  });
+}
+
+function renderTable(){
+  const filtered=getFiltered();
+  const rows=getSorted(filtered);
+  const total=state.data[state.cat].length;
+  document.getElementById("count-label").textContent=rows.length===total?`${total} entries`:`${rows.length} of ${total}`;
+  document.getElementById("thead").innerHTML=`<tr>${COLS.map((c,i)=>{
+    const isSorted=state.sortCol===i;
+    const icon=isSorted?(state.sortDir===1?"▲":"▼"):"▲";
+    return`<th class="${isSorted?(state.sortDir===1?"sort-asc":"sort-desc"):""}" onclick="toggleSort(${i})">${c}<span class="sort-icon">${icon}</span></th>`;
+  }).join("")}<th></th></tr>`;
+  if(!rows.length){document.getElementById("tbody").innerHTML=`<tr><td colspan="${COLS.length+1}" class="empty">No results</td></tr>`;return;}
+  let mainCount=0;
+  document.getElementById("tbody").innerHTML=rows.map((w)=>{
+    const chk=CHECK.includes(w.name);
+    const isSub=w.name.startsWith("-");
+    if(!isSub) mainCount++;
+    const highlight=!isSub&&(mainCount%2===1);
+    return`<tr class="${highlight?"main-entry":""}">
+      <td style="font-weight:${isSub?"400":"500"};color:${isSub?"var(--color-text2)":"var(--color-text)"}">${w.name}${chk?`<span class="check-badge">check</span>`:""}</td>
+      <td>${w.rangeS||"-"}</td><td>${w.rangeL||"-"}</td><td>${w.accS||"-"}</td><td>${w.accL||"-"}</td>
+      <td>${w.str||"-"}</td><td>${w.ap||"-"}</td><td>${w.dmg||"-"}</td><td>${w.am||"-"}</td>
+      <td><span class="${alClass(w.al)}">${w.al||"-"}</span></td>
+      <td>${w.credits||"-"}</td>
+      <td class="wrap" style="white-space:normal;max-width:200px;font-size:11px;color:var(--color-text2)">${w.traits||""}</td>
+      <td style="font-size:11px;color:var(--color-text2);max-width:100px;overflow:hidden;text-overflow:ellipsis">${w.notes||""}</td>
+      <td><button class="btn" style="padding:2px 8px;font-size:11px" onclick="openEdit('${w.name.replace(/'/g,"\\'")}','${(w.traits||"").replace(/'/g,"\\'")}')">Edit</button></td>
+    </tr>`;
+  }).join("");
+}
+
+function toggleSort(i){
+  if(state.sortCol===i)state.sortDir*=-1;
+  else{state.sortCol=i;state.sortDir=1;}
+  renderTable();
+}
+
+function switchCat(c){state.cat=c;state.search="";state.colFilters={};state.sortCol=null;state.sortDir=1;document.getElementById("search").value="";renderColFilters();renderActiveFilters();renderCatTabs();renderTable();}
+document.getElementById("search").oninput=e=>{state.search=e.target.value;renderTable();};
+document.getElementById("add-btn").onclick=()=>openModal(null,null);
+
+function openModal(w,ri){
+  state.editIdx=ri;
+  const d=w||{};
+  document.getElementById("modal-title").textContent=w?"Edit weapon":"Add weapon";
+  document.getElementById("m-delete").style.display=w?"inline-block":"none";
+  const F=(k,l,v,ph="")=>`<div class="field"><label>${l}</label><input id="f_${k}" type="text" value="${String(v||"").replace(/"/g,"&quot;")}" placeholder="${ph}"></div>`;
+  document.getElementById("modal-fields").innerHTML=`
+    ${F("name","Name",d.name,"")}
+    <div class="field-row">${F("rangeS","Short range",d.rangeS,"-")}${F("rangeL","Long range",d.rangeL,"-")}${F("accS","Acc S",d.accS,"-")}${F("accL","Acc L",d.accL,"-")}</div>
+    <div class="field-row">${F("str","S",d.str,"-")}${F("ap","AP",d.ap,"-")}${F("dmg","D",d.dmg,"-")}${F("am","Am",d.am,"-")}</div>
+    <div class="field-row">${F("al","AL",d.al,"-")}${F("credits","Credits",d.credits,"-")}</div>
+    <div class="field"><label>Traits</label><textarea id="f_traits">${d.traits||""}</textarea></div>
+    <div class="field"><label>Notes</label><input id="f_notes" type="text" value="${String(d.notes||"").replace(/"/g,"&quot;")}"></div>`;
+  document.getElementById("modal-bg").classList.add("open");
+}
+
+function openEdit(name,traits){
+  const ri=state.data[state.cat].findIndex(x=>x.name===name&&x.traits===traits);
+  if(ri<0)return;
+  openModal(state.data[state.cat][ri],ri);
+}
+
+document.getElementById("m-cancel").onclick=closeModal;
+document.getElementById("modal-bg").onclick=e=>{if(e.target===document.getElementById("modal-bg"))closeModal();};
+document.getElementById("m-save").onclick=async()=>{
+  const g=k=>{const el=document.getElementById("f_"+k);return el?el.value.trim():"";};
+  const wn={name:g("name"),rangeS:g("rangeS"),rangeL:g("rangeL"),accS:g("accS"),accL:g("accL"),str:g("str"),ap:g("ap"),dmg:g("dmg"),am:g("am"),al:g("al"),credits:g("credits"),traits:g("traits"),notes:g("notes")};
+  if(!wn.name){document.getElementById("f_name").style.borderColor="var(--color-border-danger)";return;}
+  const data=[...state.data[state.cat]];
+  if(state.editIdx!==null&&state.editIdx!==undefined)data[state.editIdx]=wn;
+  else data.push(wn);
+  state.data[state.cat]=data;
+  await save(state.cat);
+  closeModal();render();
+};
+document.getElementById("m-delete").onclick=async()=>{
+  if(!confirm("Delete this weapon?"))return;
+  state.data[state.cat]=state.data[state.cat].filter((_,i)=>i!==state.editIdx);
+  await save(state.cat);
+  closeModal();render();
+};
+function closeModal(){document.getElementById("modal-bg").classList.remove("open");state.editIdx=null;}
+init();
+</script>
+</body>
+</html>
