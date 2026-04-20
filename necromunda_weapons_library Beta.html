@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Necromunda Weapons Library</title>
+<style>
+:root{--font-sans:system-ui,-apple-system,sans-serif;--color-bg:#fff;--color-bg2:#f5f5f4;--color-bg3:#eeecea;--color-bg-info:#e6f1fb;--color-bg-danger:#fcebeb;--color-text:#1a1a18;--color-text2:#5f5e5a;--color-text3:#888780;--color-text-info:#185fa5;--color-text-danger:#a32d2d;--color-text-warn:#854f0b;--color-text-ok:#3b6d11;--color-border:rgba(0,0,0,0.12);--color-border2:rgba(0,0,0,0.25);--color-border3:rgba(0,0,0,0.35);--color-border-info:#85b7eb;--r:8px;--rl:12px}
+@media(prefers-color-scheme:dark){:root{--color-bg:#1c1c1a;--color-bg2:#2a2a27;--color-bg3:#232320;--color-bg-info:#042c53;--color-text:#f0ede8;--color-text2:#b4b2a9;--color-text3:#888780;--color-text-info:#85b7eb;--color-border:rgba(255,255,255,0.1);--color-border2:rgba(255,255,255,0.2);--color-border3:rgba(255,255,255,0.3)}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:var(--color-bg3);color:var(--color-text);padding:1rem 1.5rem}
+input,select,textarea,button{font-family:var(--font-sans);color:var(--color-text);background:var(--color-bg);border:0.5px solid var(--color-border2);border-radius:var(--r);padding:6px 10px;outline:none}
+input:focus,select:focus{box-shadow:0 0 0 2px var(--color-border-info)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.app{position:relative}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px}
+.header h1{font-size:20px;font-weight:500}
+.header .sub{font-size:13px;color:var(--color-text2);margin-top:2px}
+.cat-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:1rem}
+.cat-tab{padding:5px 12px;font-size:12px;border:0.5px solid var(--color-border2);border-radius:var(--r);cursor:pointer;background:transparent;color:var(--color-text2)}
+.cat-tab.active{background:var(--color-bg2);color:var(--color-text);border-color:var(--color-border3);font-weight:500}
+.cat-tab:hover:not(.active){background:var(--color-bg2)}
+.toolbar{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
+.toolbar input{flex:1;min-width:160px;font-size:13px}
+.btn{padding:5px 12px;font-size:13px;border:0.5px solid var(--color-border2);border-radius:var(--r);cursor:pointer;background:transparent;color:var(--color-text);white-space:nowrap}
+.btn:hover{background:var(--color-bg2)}
+.btn.primary{background:var(--color-bg-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+.btn.danger{color:var(--color-text-danger);border-color:#f09595}
+.table-wrap{overflow-x:auto;border:0.5px solid var(--color-border);border-radius:var(--rl)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{padding:7px 10px;text-align:left;font-weight:500;font-size:11px;color:var(--color-text2);border-bottom:0.5px solid var(--color-border);background:var(--color-bg2);white-space:nowrap;cursor:pointer;user-select:none;position:relative}
+th:hover{color:var(--color-text)}
+th .sort-icon{margin-left:4px;opacity:0.4;font-size:10px}
+th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--color-text-info)}
+td{padding:7px 10px;border-bottom:0.5px solid var(--color-border);color:var(--color-text);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--color-bg2)}
+tr.main-entry td{background:#FAEEDA}
+tr.main-entry:hover td{background:#FAC775}
+tr.main-entry-even td{background:#FDF4EC}
+tr.main-entry-even:hover td{background:#FAE0C0}
+@media(prefers-color-scheme:dark){tr.main-entry td{background:#412402}tr.main-entry:hover td{background:#633806}tr.main-entry-even td{background:#2a1a0e}tr.main-entry-even:hover td{background:#3a2410}}
+td.wrap{white-space:normal;max-width:200px}
+.al{display:inline-block;padding:1px 6px;border-radius:var(--r);font-size:11px;font-weight:500}
+.al-C{background:#EAF3DE;color:#3B6D11}
+.al-R{background:#E6F1FB;color:#185FA5}
+.al-I{background:#FAEEDA;color:#854F0B}
+.al-E{background:#EEEDFE;color:#3C3489}
+.al-x{background:var(--color-bg2);color:var(--color-text2)}
+.check-badge{font-size:10px;background:#EF9F27;color:#fff;padding:1px 5px;border-radius:4px;margin-left:4px;vertical-align:middle}
+.cheaper-badge{display:inline-block;width:8px;height:8px;border-radius:50%;background:#3b6d11;margin-left:5px;vertical-align:middle;cursor:help}
+.pricier-badge{display:inline-block;width:8px;height:8px;border-radius:50%;background:#a32d2d;margin-left:5px;vertical-align:middle;cursor:help}
+.empty{text-align:center;padding:2rem;color:var(--color-text2);font-size:14px}
+.count{font-size:12px;color:var(--color-text2)}
+.col-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;align-items:center}
+.key-box{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:0.5px solid var(--color-border2);border-radius:var(--r);font-size:11px;color:var(--color-text2);background:var(--color-bg2);white-space:nowrap;margin-left:auto}
+.key-box strong{color:var(--color-text);font-size:12px}
+.col-filters label{font-size:11px;color:var(--color-text2)}
+.col-filters select{font-size:12px;padding:4px 8px}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:.75rem;align-items:center}
+.filter-pill{font-size:11px;padding:3px 10px;border-radius:20px;background:var(--color-bg-info);color:var(--color-text-info);border:0.5px solid var(--color-border-info);cursor:pointer;display:flex;align-items:center;gap:4px}
+.filter-pill:hover{opacity:0.8}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:100;align-items:flex-start;justify-content:center;padding-top:4rem}
+.modal-bg.open{display:flex}
+.modal{background:var(--color-bg);border:0.5px solid var(--color-border);border-radius:var(--rl);padding:1.25rem;width:min(520px,90vw);max-height:80vh;overflow-y:auto}
+.modal h2{font-size:15px;font-weight:500;margin-bottom:1rem}
+.field{margin-bottom:10px}
+.field label{display:block;font-size:11px;color:var(--color-text2);margin-bottom:3px}
+.field input,.field textarea{width:100%;font-size:13px}
+.field textarea{min-height:50px;resize:vertical}
+.field-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:8px}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem}
+.house-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:.5rem}
+.house-tab{padding:6px 14px;font-size:13px;font-weight:500;border:0.5px solid var(--color-border2);border-radius:var(--r);cursor:pointer;background:transparent;color:var(--color-text2);transition:all 0.1s}
+.house-tab:hover:not(.active){background:var(--color-bg2)}
+.house-tab.active{color:#fff;border-color:transparent}
+.house-tab[data-house="Universal"].active{background:#5f5e5a;border-color:#444441}
+.house-tab[data-house="Goliath"].active{background:#993C1D;border-color:#712B13}
+.house-tab[data-house="Escher"].active{background:#993556;border-color:#72243E}
+.house-tab[data-house="Van Saar"].active{background:#185FA5;border-color:#0C447C}
+.house-tab[data-house="Orlock"].active{background:#854F0B;border-color:#633806}
+.house-tab[data-house="Cawdor"].active{background:#633806;border-color:#412402}
+.house-tab[data-house="Delaque"].active{background:#3C3489;border-color:#26215C}
+.house-tab[data-house="Enforcers"].active{background:#185FA5;border-color:#0C447C}
+.house-tab[data-house="Corpse Grinder Cult"].active{background:#A32D2D;border-color:#791F1F}
+.house-tab[data-house="Slave Ogryns"].active{background:#3B6D11;border-color:#27500A}
+.house-tab[data-house="Squats"].active{background:#0F6E56;border-color:#085041}
+.house-tab[data-house="Ash Wastes"].active{background:#888780;border-color:#5F5E5A}
+.house-tab[data-house="Spyre Hunters"].active{background:#6B3A8C;border-color:#4A2664}
+.house-tab[data-house="Malstrain Genestealers"].active{background:#1A5C3A;border-color:#0D3D26}
+.house-divider{height:1px;background:var(--color-border);margin-bottom:1rem}
+.house-empty{text-align:center;padding:3rem 1rem;color:var(--color-text2);font-size:14px}
+.house-empty strong{display:block;font-size:16px;margin-bottom:.5rem;color:var(--color-text)}
+</style>
+</head>
+<body>
+<div class="app">
+<h2 class="sr-only">Necromunda weapons library — full weapon reference with column filtering and sorting</h2>
+<div class="header">
+  <div><h1>Necromunda weapons library</h1><div class="sub">All weapons loaded</div></div>
+  <span class="count" id="count-label"></span>
+</div>
+<div class="house-tabs" id="house-tabs"></div>
+<div class="house-divider"></div>
+<div id="house-content">
+<div class="cat-tabs" id="cat-tabs"></div>
+<div class="toolbar">
+  <input type="text" id="search" placeholder="Search name, traits, notes..." />
+  <button class="btn primary" id="add-btn">+ Add</button>
+</div>
+<div class="col-filters" id="col-filters"></div>
+<div id="active-filters" class="filter-row"></div>
+<div class="table-wrap">
+  <table><thead id="thead"></thead><tbody id="tbody"></tbody></table>
+</div>
+</div><!-- end house-content -->
+</div>
+
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <h2 id="modal-title">Add weapon</h2>
+    <div id="modal-fields"></div>
+    <div class="modal-actions">
+      <button class="btn" id="m-cancel">Cancel</button>
+      <button class="btn danger" id="m-delete" style="display:none">Delete</button>
+      <button class="btn primary" id="m-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const CATS=["Basic","Pistol","Special","Heavy","Grenade","Booby Trap","Close Combat"];
+const COLS=["Name","S Range","L Range","Acc S","Acc L","S","AP","D","Am","AV","Credits","Traits","Notes"];
+const COL_KEYS=["name","rangeS","rangeL","accS","accL","str","ap","dmg","am","al","credits","traits","notes"];
+const FILTERABLE=["al","str","ap","dmg","am","credits"];
+const FILTER_LABELS={"al":"Availability","str":"Strength","ap":"AP","dmg":"Damage","am":"Ammo","credits":"Cost"};
+const CHECK=["Araneus-pattern plasma pistol","Araneus-pattern meltagun","Medusian projectors"];
+const w=(name,rS,rL,aS,aL,s,ap,d,am,al,cr,traits,notes)=>({name,rangeS:rS,rangeL:rL,accS:aS,accL:aL,str:s,ap,dmg:d,am,al,credits:cr,traits,notes});
+const BAKED={
+"Basic":[
+w("Arc rifle",'9\"','24\"',"+2","-1","5","-","1","6+","R13","100","Blaze, Rapid Fire (1), Shock",""),
+w("Autogun",'8\"','24\"',"+1","-","3","-","1","4+","C","15","Rapid Fire (1)",""),
+w("- Autogun (Static rounds)",'8\"','24\"',"+1","-","3","-","1","4+","I9","+10","Limited, Shield Breaker, Shock, Rapid Fire (1)","Autogun ammo"),
+w("- Autogun (Warp round)",'8\"','24\"',"+1","-","3","-","1","4+","I10","+15","Cursed, Limited, Single Shot","Autogun ammo"),
+w("- Autogun (Plantbuster)",'8\"','24\"',"+1","-","3","-","1","4+","R9","15","Defoliate, Rapid Fire (1), Scarce","Plantbuster rounds"),
+w("- Autogun (Phosphor)",'8\"','24\"',"+1","-","3","-","1","4+","R8","10","Flare, Rapid Fire (1), Scarce","Phosphor rounds"),
+w("- Autogun (Rad)",'8\"','24\"',"-","-","3","-","1","4+","R9","20","Rad-phage, Rapid Fire (1), Scarce","Rad rounds"),
+w("Boltgun",'12\"','24\"',"+1","-","4","-1","2","6+","R8","55","Rapid Fire (1)",""),
+w("- Boltgun (Gas shells)",'12\"','24\"',"+1","-","-","-","-","6+","R11","+25","Blast (3\"), Gas, Limited, Single Shot","Boltgun ammo"),
+w("- Boltgun (Shatter shells)",'12\"','24\"',"+1","-","3","-1","1","6+","R9","+15","Blast (3\"), Limited","Boltgun ammo"),
+w("- Boltgun (Gunk shells)",'12"','24"',"-","-","4","-1","1","5+","C","15","Gunk, Limited","Gunk bolts"),
+w("Combat shotgun (salvo)",'4\"','12\"',"+1","-","4","-","2","4+","R7","70","Knockback, Rapid Fire (1)",""),
+w("- Combat shotgun (shredder)",'-','T',"-","-","2","-","1","4+","-","+0","Scattershot, Template",""),
+w("- Combat shotgun (firestorm)",'-','T',"-","-","5","-1","1","6+","R8","+30","Blaze, Limited, Template",""),
+w("- Combat shotgun (gas shells)",'4\"','18\"',"+1","-","-","-","-","6+","R11","+25","Blast (3\"), Gas, Limited, Single Shot",""),
+w("- Combat shotgun (shatter shells)",'4\"','18\"',"+1","-","3","-1","1","5+","R9","+15","Blast (3\"), Limited",""),
+w("- Combat shotgun (Plantbuster)",'-','T',"-","-","2","-","1","4+","R9","15","Defoliate, Scarce, Scattershot, Template","Plantbuster rounds"),
+w("- Combat shotgun (Phosphor)",'-','T',"-","-","2","-","1","4+","R8","10","Flare, Scarce, Scattershot, Template","Phosphor rounds"),
+w("- Combat shotgun (Rad)",'-','T',"-","-","2","-","1","4+","R9","25","Rad-phage, Scarce, Scattershot, Template","Rad rounds"),
+w("Kroot long rifle (ranged)",'12\"','24\"',"+1","-","4","-","1","4+","R10","30","Esoteric, Knockback, Plentiful",""),
+w("- Kroot long rifle (melee)",'E','2\"',"-","-","S+1","-","1","-","R10","+0","Disarm, Esoteric, Melee, Versatile",""),
+w("Lasgun",'18\"','24\"',"+1","-","3","-","1","2+","C","15","Plentiful",""),
+w("- Lasgun (hotshot las pack)",'18\"','24\"',"+1","-","4","-1","1","4+","C","+20","",""),
+w("Rak'gol razor gun",'6\"','20\"',"-","-1","-","-2","-","6+","I11","60","Esoteric, Rapid Fire (2), Toxin",""),
+w("Reclaimed autogun",'8\"','24\"',"+1","-","3","-","1","5+","C","10","Rapid Fire (1)",""),
+w("- Reclaimed autogun (Plantbuster)",'8\"','24\"',"+1","-","3","-","1","5+","R9","15","Defoliate, Rapid Fire (1), Scarce","Plantbuster rounds"),
+w("- Reclaimed autogun (Phosphor)",'8\"','24\"',"+1","-","3","-","1","5+","R8","10","Flare, Rapid Fire (1), Scarce","Phosphor rounds"),
+w("- Reclaimed autogun (Rad)",'8\"','24\"',"-","-","3","-","1","5+","R9","20","Rad-phage, Rapid Fire (1), Scarce","Rad rounds"),
+w("Sawn-off shotgun (scatter)",'4\"','8\"',"+2","-","3","-","1","6+","C","15","Plentiful, Scattershot",""),
+w("- Sawn-off shotgun (solid)",'4\"','8\"',"-","-2","4","-","2","6+","C","+5","Knockback, Plentiful",""),
+w("- Sawn-off shotgun (gas)",'4\"','8\"',"+1","-","-","-","-","6+","R11","+25","Blast (3\"), Gas, Limited, Single Shot",""),
+w("- Sawn-off shotgun (shatter)",'4\"','8\"',"+1","-","3","-1","1","5+","R9","+15","Blast (3\"), Limited",""),
+w("- Sawn-off shotgun (Plantbuster)",'4\"','8\"',"+2","-","3","-","1","2+","R9","15","Defoliate, Scarce, Scattershot","Plantbuster rounds"),
+w("- Sawn-off shotgun (Phosphor)",'4\"','8\"',"+2","-","3","-","1","2+","R8","10","Flare, Scarce, Scattershot","Phosphor rounds"),
+w("- Sawn-off shotgun (Rad)",'4\"','8\"',"+1","-","3","-","1","2+","R9","25","Rad-phage, Scarce, Scattershot","Rad rounds"),
+w("Shotgun (solid)",'8\"','16\"',"+1","-","4","-","2","4+","C","30","Knockback",""),
+w("- Shotgun (scatter)",'4\"','8\"',"+2","-","2","-","1","4+","-","+0","Scattershot",""),
+w("- Shotgun (executioner)",'4\"','16\"',"-1","+1","4","-2","2","6+","R9","+20","Knockback, Limited",""),
+w("- Shotgun (inferno)",'4\"','16\"',"+1","-","4","-","2","5+","R8","+15","Blaze, Limited",""),
+w("- Shotgun (gas shells)",'4\"','18\"',"+1","-","-","-","-","6+","R11","+25","Blast (3\"), Gas, Limited, Single Shot",""),
+w("- Shotgun (shatter shells)",'4\"','18\"',"+1","-","3","-1","1","5+","R9","+15","Blast (3\"), Limited",""),
+w("- Shotgun (Plantbuster)",'4\"','8\"',"+2","-","2","-","1","4+","R9","15","Defoliate, Scarce, Scattershot","Plantbuster rounds"),
+w("- Shotgun (Phosphor)",'4\"','8\"',"+2","-","2","-","1","4+","R8","10","Flare, Scarce, Scattershot","Phosphor rounds"),
+w("- Shotgun (Rad)",'4\"','8\"',"+1","-","2","-","1","4+","R9","25","Rad-phage, Scarce, Scattershot","Rad rounds"),
+w("Sling gun",'6\"','12\"',"+2","-","4","-2","1","5+","R11","55","Esoteric, Rapid Fire (1), Scarce",""),
+w("Stake-crossbow",'5\"','15\"',"+1","-","3","-","1","4+","R9","60","Hexagrammatic, Silent",""),
+w("Throwing knives",'Sx2','Sx4',"-","-1","-","-1","-","5+","C","10","Scarce, Silent, Toxin",""),
+w("Warpstorm bolter",'12\"','24\"',"+1","-","4","-1","2","6+","I10","60","Cursed, Esoteric, Rapid Fire (1), Scarce",""),
+
+],
+"Pistol":[
+w("Araneus-pattern plasma pistol",'6"','12"',"+1","-","7","-2","3","5+","E","-","Scarce, Sidearm","CHECK stats"),
+w("Autopistol",'4\"','12\"',"+1","-","3","-","1","4+","C","10","Rapid Fire (1), Sidearm",""),
+w("- Autopistol (Static round)",'4\"','12\"',"+1","-","3","-","1","4+","I9","+10","Limited, Rapid Fire (1), Shield Breaker, Shock, Sidearm",""),
+w("- Autopistol (Warp round)",'4\"','12\"',"+1","-","3","-","1","4+","I10","+15","Cursed, Limited, Sidearm, Single Shot",""),
+w("- Autopistol (Manstopper rounds)",'4"','12"',"+1","-","4","-","1","4+","R8","10","Rapid Fire (1), Limited, Sidearm","Manstopper rounds"),
+w("- Autopistol (Fragmentation rounds)",'4"','12"',"+1","-","3","-1","1","4+","R8","10","Rapid Fire (1), Limited, Sidearm","Fragmentation rounds"),
+w("- Autopistol (Plantbuster)",'4\"','12\"',"+1","-","3","-","1","4+","R9","15","Defoliate, Rapid Fire (1), Scarce, Sidearm","Plantbuster rounds"),
+w("- Autopistol (Phosphor)",'4\"','12\"',"+1","-","3","-","1","4+","R8","10","Flare, Rapid Fire (1), Scarce, Sidearm","Phosphor rounds"),
+w("- Autopistol (Rad)",'4\"','12\"',"-","-","3","-","1","4+","R9","20","Rad-phage, Rapid Fire (1), Scarce, Sidearm","Rad rounds"),
+w("Bolt pistol",'6\"','12\"',"+1","-","4","-1","2","6+","R8","45","Sidearm",""),
+w("- Bolt pistol (Gas shells)",'6\"','12\"',"+1","-","-","-","-","6+","R11","+25","Blast (3\"), Gas, Limited, Single Shot",""),
+w("- Bolt pistol (Shatter shells)",'6\"','12\"',"+1","-","3","-1","1","6+","R9","+15","Blast (3\"), Limited",""),
+w("- Bolt pistol (Gunk)",'6\"','12\"',"-","-","4","-1","2","6+","C","15","Gunk, Sidearm","Gunk bolts"),
+w("- Bolt pistol (Gunk)",'6\"','12\"',"-","-","4","-1","2","6+","C","15","Gunk, Sidearm","Gunk bolts"),
+w("Combi autopistol (primary)",'4\"','12\"',"+1","-","3","-","1","4+","-","+0","Combi, Rapid Fire (1), Sidearm",""),
+w("- Combi hand flamer (secondary)",'-','T',"-","-","3","-","1","5+","R10","65","Blaze, Combi, Template, Unstable",""),
+w("- Combi plasma pistol (secondary)",'6\"','12\"',"+2","-","5","-1","2","5+","R10","50","Combi, Scarce, Sidearm",""),
+w("Combi bolt pistol (primary)",'6\"','12\"',"+1","-","4","-1","2","6+","-","+0","Combi, Sidearm",""),
+w("- Combi hand flamer (secondary)",'-','T',"-","-","3","-","1","5+","R11","110","Blaze, Combi, Template, Unstable",""),
+w("- Combi plasma pistol (secondary)",'6\"','12\"',"+2","-","5","-1","2","5+","R11","80","Combi, Scarce, Sidearm",""),
+w("Combi stub gun (primary)",'6\"','12\"',"+2","-","3","-","1","4+","-","+0","Combi, Plentiful, Sidearm",""),
+w("- Combi plasma (secondary)",'6\"','12\"',"+2","-","5","-1","2","5+","R8","40","Combi, Scarce, Sidearm",""),
+w("Compact autopistol",'4\"','12\"',"+1","-","2","-","1","4+","E","-","Rapid Fire (1), Scarce","Gun Skull only"),
+w("Grav pistol",'6\"','12\"',"+1","-","*","-1","2","5+","R11","70","Blast (3\"), Concussion, Graviton Pulse",""),
+w("Hand crossbow",'8"','12"',"+1","-","3","-","1","6+","C","-","Plentiful, Sidearm, Silent",""),
+w("Hand flamer",'-','T',"-","-","3","-","1","5+","R8","75","Blaze, Template",""),
+w("Inferno pistol",'6\"','9\"',"-","-","8","-3","2","6+","R12","145","Melta, Scarce, Sidearm",""),
+w("Laspistol",'8\"','12\"',"+1","-","3","-","1","2+","C","10","Plentiful, Sidearm",""),
+w("- Laspistol (hotshot las pack)",'8\"','12\"',"+1","-","4","-1","1","4+","C","+15","Sidearm",""),
+w("Needle pistol",'4\"','9\"',"+2","-","-","-1","-","6+","R9","30","Scarce, Sidearm, Silent, Toxin",""),
+w("- chem darts",'9\"','18\"',"+2","-","-","-","-","6+","C","+10","Chem Delivery, Silent",""),
+w("Plasma pistol (low)",'6\"','12\"',"+2","-","5","-1","2","5+","R9","50","Scarce, Sidearm",""),
+w("- Plasma pistol (maximal)",'6\"','12\"',"+1","-","7","-2","3","5+","R9","+0","Scarce, Sidearm, Unstable",""),
+w("Reclaimed autopistol",'4\"','12\"',"+1","-","3","-","1","5+","C","5","Rapid Fire (1), Sidearm",""),
+w("- Reclaimed autopistol (Plantbuster)",'4\"','12\"',"+1","-","3","-","1","5+","R9","15","Defoliate, Rapid Fire (1), Scarce, Sidearm","Plantbuster rounds"),
+w("- Reclaimed autopistol (Phosphor)",'4\"','12\"',"+1","-","3","-","1","5+","R8","10","Flare, Rapid Fire (1), Scarce, Sidearm","Phosphor rounds"),
+w("- Reclaimed autopistol (Rad)",'4\"','12\"',"-","-","3","-","1","5+","R9","20","Rad-phage, Rapid Fire (1), Scarce, Sidearm","Rad rounds"),
+w("Stub gun",'6\"','12\"',"+2","-","3","-","1","4+","C","5","Plentiful, Sidearm",""),
+w("- dumdum rounds",'5\"','10\"',"+1","-","4","-","1","4+","R7","+5","Limited, Sidearm",""),
+w("- Stub gun (Static round)",'6\"','12\"',"+2","-","3","-","1","4+","I9","+10","Limited, Knockback, Shield Breaker, Shock",""),
+w("- Stub gun (Warp round)",'6\"','12\"',"+2","-","3","-","1","4+","I10","+15","Cursed, Limited, Sidearm, Single Shot",""),
+w("Web pistol",'-','T',"-","-","4","-","-","6+","R9","90","Silent, Template, Web",""),
+w("Web projector (Cyberachnid)","-","T","-","-","2","-","-","6+","-","-","Scarce, Silent, Template, Web","Model only — not purchasable"),
+
+w("Withertouch pistol",'6\"','9\"',"-","-","3","-","1","6+","I13","55","Esoteric, Melta, Sidearm, Silent",""),
+],
+"Special":[
+w("Araneus-pattern meltagun",'6"','12"',"+1","-","8","-4","3","4+","E","-","Melta","CHECK stats"),
+w("Balefire thrower",'-','T',"-","-","4","-1","2","5+","I9","120","Blaze, Cursed, Esoteric, Template",""),
+w("Combi autogun (primary)",'8\"','24\"',"+1","-","3","-","1","4+","-","+0","Combi, Rapid Fire (1)",""),
+w("- Combi autogun/flamer (secondary)",'-','T',"-","-","4","-1","1","5+","R10","110","Blaze, Combi, Template, Unstable",""),
+w("- Combi autogun (Plantbuster)",'8\"','24\"',"+1","-","3","-","1","4+","R9","15","Combi, Defoliate, Rapid Fire (1), Scarce","Plantbuster rounds"),
+w("Combi bolter (primary)",'12\"','24\"',"+1","-","4","-1","2","6+","-","+0","Combi, Rapid Fire (1)",""),
+w("- Combi flamer (secondary)",'-','T',"-","-","4","-1","1","5+","R8","180","Blaze, Combi, Template, Unstable",""),
+w("- Combi grenade launcher (secondary)",'6\"','24\"',"-1","-","3","-","1","6+","R8","60","Blast (3\"), Combi, Knockback",""),
+w("- Combi melta (secondary)",'6\"','12\"',"+1","-","8","-4","3","4+","R12","170","Combi, Melta, Scarce",""),
+w("- Combi needler (secondary)",'9\"','18\"',"+1","-","-","-1","-","6+","R10","90","Combi, Scarce, Silent, Toxin",""),
+w("- Combi plasma gun (secondary)",'12\"','24\"',"+2","-","5","-1","2","5+","R10","115","Combi, Rapid Fire (1), Scarce",""),
+w("Disintegration gun",'8"','24"',"-","-1","5","-3","2","6+","-","-","Rapid Fire (1), Scarce, Sever, Unstable",""),
+w("Flamer",'-','T',"-","-","4","-1","1","5+","R7","140","Blaze, Template",""),
+w("Grav gun",'9\"','18\"',"+1","-","*","-1","2","5+","R11","120","Blast (3\"), Concussion, Graviton Pulse",""),
+w("Grenade launcher (frag)",'6\"','24\"',"-1","-","3","-","1","6+","R8","65","Blast (3\"), Knockback","frag default"),
+w("- krak grenades",'6\"','24\"',"-1","-","6","-2","2","6+","-","+0","",""),
+w("- choke gas",'6\"','24\"',"-1","-","-","-","-","5+","R9","+35","Blast (3\"), Gas, Limited",""),
+w("- flares",'6\"','24\"',"-1","-","-","-","-","4+","C","+30","Blast (3\"), Flare",""),
+w("- photon flash",'6\"','24\"',"-","-","-","-","-","5+","R9","+15","Blast (5\"), Flash",""),
+w("- plasma grenades",'6\"','24\"',"-1","-","5","-1","2","6+","R12","+100","Blast (3\"), Unstable",""),
+w("- scare gas",'6\"','24\"',"-1","-","-","-","-","6+","R10","+45","Blast (3\"), Fear, Gas, Limited",""),
+w("- smoke",'6\"','24\"',"-1","-","-","-","-","4+","C","+15","Blast (*), Smoke",""),
+w("- stun rounds",'6\"','24\"',"-","-","2","-1","1","4+","R8","+25","Concussion, Rapid Fire (1)",""),
+w("- Grenade launcher (anti-plant)",'6"','24"',"-1","-","-","-","-","4+","R7","40","Grenade, Blast (3\"), Defoliate",""),
+w("- Grenade launcher (flare)",'6"','24"',"-1","-","-","-","-","4+","C","30","Grenade, Blast (3\"), Flare",""),
+w("- Grenade launcher (plasma)",'6"','24"',"-1","-","5","-1","2","6+","R12","100","Blast (3\"), Unstable",""),
+w("Grenade launcher array (choke gas)",'6"','18"',"-1","-","-","-","-","5+","R9","+35","Blast (3\"), Gas, Limited",""),
+w("- Grenade launcher array (photon flash)",'6"','18"',"-","-","-","-","-","5+","R9","+15","Blast (5\"), Flash",""),
+w("- Grenade launcher array (scare gas)",'6"','18"',"-1","-","-","-","-","6+","R10","+45","Blast (3\"), Fear, Gas, Limited",""),
+w("- Grenade launcher array (smoke)",'6"','18"',"-1","-","-","-","-","4+","C","+15","Blast (*), Smoke",""),
+w("- Grenade launcher array (stun)",'6"','18"',"-","-","2","-1","1","4+","R8","+25","Concussion",""),
+w("- Grenade launcher array (frag)",'6"','18"',"-1","-","3","-","1","6+","R8","+0","Blast (3\"), Knockback",""),
+w("- Grenade launcher array (krak)",'6"','18"',"-1","-","6","-2","2","6+","-","+0","",""),
+w("- Grenade launcher array (plasma grenades)",'6"','18"',"-1","-","5","-1","2","6+","R12","+100","Blast (3\"), Unstable",""),
+w("- Grenade launcher array (anti-plant)",'6"','18"',"-1","-","-","-","-","4+","R7","40","Grenade, Blast (3\"), Defoliate",""),
+w("- Grenade launcher array (flare)",'6"','18"',"-1","-","-","-","-","4+","C","30","Grenade, Blast (3\"), Flare",""),
+w("Hrud fusil (low)",'9\"','18\"',"-","-","6","-1","2","5+","I9","120","Esoteric, Rapid Fire (1), Scarce",""),
+w("- Hrud fusil (maximal)",'12\"','24\"',"+1","-","8","-2","3","5+","I9","+0","Esoteric, Scarce, Unstable",""),
+w("Kai hellspear",'6\"','18\"',"-","-","3","-3","1","3+","I12","90","Esoteric, Impale, Pulverise, Rending",""),
+w("Long las",'18\"','36\"',"-","+1","4","-","1","2+","C","20","Plentiful",""),
+w("Long rifle",'24\"','48\"',"-","+1","4","-1","1","4+","R7","30","Knockback",""),
+w("- Long rifle (Static round)",'24\"','48\"',"-","+1","4","-1","1","4+","I10","+15","Limited, Knockback, Shield Breaker, Shock",""),
+w("- Long rifle (Warp round)",'24\"','48\"',"-","+1","4","-1","1","4+","I11","+20","Cursed, Knockback, Limited, Single Shot",""),
+w("Medusian projectors",'4"','12"',"-1","-","4","-","1","4+","E","-","Flash","CHECK stats"),
+w("Meltagun",'6\"','12\"',"+1","-","8","-4","3","4+","R11","135","Melta, Scarce",""),
+w("Necrotic beamer (ranged)",'6\"','12\"',"-","-1","6","-1","3","6+","I12","110","Esoteric, Melta, Scarce, Scattershot",""),
+w("- Necrotic beamer (melee)",'E','3\"',"+1","-","3","-","3","-","I12","+0","Esoteric, Melee, Melta, Versatile",""),
+w("Needle rifle",'9\"','18\"',"+2","-","-","-2","-","6+","R9","40","Scarce, Silent, Toxin",""),
+w("- chem darts",'9"','18"',"+2","-","-","-","-","6+","C","+10","Chem Delivery, Silent",""),
+w("Neural flayer (short)",'-','T',"-","-","-","-","-","4+","I13","90","Concussion, Esoteric, Flash, Template",""),
+w("- Neural flayer (full)",'-','T',"-","-","-","-","-","6+","I13","+0","Concussion, Esoteric, Fear, Flash, Gas, Pulverise, Template",""),
+w("Plasma gun (low)",'12\"','24\"',"+2","-","5","-1","2","5+","R9","100","Rapid Fire (1), Scarce",""),
+w("- Plasma gun (maximal)",'12\"','24\"',"+1","-","7","-2","3","5+","R9","+0","Scarce, Unstable",""),
+w("Storm-welder",'8\"','16\"',"+1","-","5","-","1","3+","-","-","Rapid Fire (3), Reckless, Shock, Unstable",""),
+
+w("Web gun",'-','T',"-","-","5","-","-","5+","R9","125","Silent, Template, Web",""),
+w("Yu'vath puzzle box",'3\"','6\"',"+2","-","2","-1","1","3+","I15","150","Esoteric, Rapid Fire (3), Scattershot, Unwieldy",""),
+],
+"Heavy":[
+w("Autocannon*",'24\"','48\"',"-","-","7","-2","2","4+","R10","160","Knockback, Rapid Fire (1), Unwieldy","Two-handed"),
+w("Demiurg energy drill*",'3\"','9\"',"+2","-","7","-4","2","6+","I9","100","Esoteric, Impale, Scarce, Unwieldy","Two-handed"),
+w("Grav cannon*",'20\"','80\"',"-1","+1","*","-1","2","5+","R10","140","Blast (5\"), Concussion, Graviton Pulse, Unwieldy","Two-handed"),
+w("Harpoon launcher*",'6\"','18\"',"+2","-","5","-3","1","5+","R9","110","Drag, Impale, Scarce","Two-handed"),
+w("Heavy bolter*",'18\"','36\"',"+1","-","5","-2","2","6+","R10","160","Rapid Fire (2), Unwieldy","Two-handed"),
+w("- Heavy bolter* (Gunk)",'18\"','36\'"',"-","-1","5","-2","2","6+","C","15","Gunk, Rapid Fire (2), Unwieldy","Gunk bolts, Two-handed"),
+w("Heavy flamer*",'-','T',"-","-","5","-2","1","5+","R10","195","Blaze, Template, Unwieldy","Two-handed"),
+w("Heavy stubber*",'20\"','40\"',"-","-1","4","-1","1","4+","R7","130","Rapid Fire (2), Unwieldy","Two-handed"),
+w("- Heavy stubber (Static round)",'20\"','40\"',"-","-","4","-1","1","4+","I10","+15","Limited, Rapid Fire (2), Shield Breaker, Shock, Unwieldy",""),
+w("- Heavy stubber (Warp round)",'20\"','40\"',"-","-","4","-1","1","4+","I11","+20","Cursed, Limited, Single Shot, Unwieldy",""),
+w("- Heavy stubber (Plantbuster)",'20\"','40\"',"-","-1","4","-1","1","4+","R9","15","Defoliate, Limited, Rapid Fire (2), Unwieldy","Plantbuster rounds"),
+w("- Heavy stubber (Phosphor)",'20\"','40\"',"-","-1","4","-1","1","4+","R8","10","Flare, Limited, Rapid Fire (2), Unwieldy","Phosphor rounds"),
+w("- Heavy stubber (Rad)",'20\"','40\"',"-","-1","4","-1","1","4+","R9","20","Limited, Rad-phage, Rapid Fire (2), Unwieldy","Rad rounds"),
+w("Lascannon*",'24\"','48\"',"-","+1","10","-3","3","4+","R10","155","Knockback, Unwieldy","Two-handed"),
+w("Mining laser*",'18\"','24\"',"-","-1","9","-3","3","3+","R9","125","Unwieldy","Two-handed"),
+w("Missile launcher* (frag)",'24\"','48\"',"+1","-","4","-1","1","6+","R10","165","Blast (5\"), Knockback, Unwieldy","Two-handed"),
+w("- Missile launcher* (krak)",'24\"','48\"',"+1","-","6","-2","3","6+","R10","+0","Unwieldy","Two-handed"),
+w("Mole launcher*",'20\"','60\"',"-1","-","6","-2","1","5+","R11","100","Blast (3\"), Burrowing, Concussion, Unwieldy","Two-handed"),
+w("Multi-melta*",'12\"','24\"',"+1","-","8","-4","3","4+","R11","180","Blast (3\"), Melta, Scarce, Unwieldy","Two-handed"),
+w("Plasma cannon* (low)",'18\"','36\"',"+1","-","6","-1","2","5+","R11","130","Rapid Fire (1), Scarce, Unwieldy","Two-handed"),
+w("- Plasma cannon* (maximal)",'18\"','36\"',"+1","-","8","-2","3","5+","R11","+0","Blast (3\"), Scarce, Unstable, Unwieldy","Two-handed"),
+w("Seismic cannon* (short)",'12\"','24\"',"-","-1","6","-1","2","5+","R10","140","Knockback, Rapid Fire (1), Seismic, Unwieldy","Two-handed"),
+w("- Seismic cannon* (long)",'12\"','24\"',"-1","-","3","-","1","5+","R10","+0","Blasting, Knockback, Rapid Fire (2), Seismic, Unwieldy","Two-handed"),
+
+
+],
+"Grenade":[
+w("Anti-plant grenade",'-','Sx3',"-","-","-","-","-","4+","R7","30","Grenade, Blast (3\"), Defoliate",""),
+w("Blasting charge",'-','Sx2',"-","-","5","-1","2","5+","R8","35","Blast (5\"), Grenade, Knockback",""),
+w("Choke gas grenade",'-','Sx3',"-","-","-","-","-","5+","R9","50","Blast (3\"), Gas, Grenade",""),
+w("Demo charge",'-','Sx2',"-","-","6","-3","3","*","R12","50","Blast (5\"), Grenade, Single Shot",""),
+w("Flares",'-','Sx3',"-","-","-","-","-","4+","C","20","Blast (5\"), Flare, Grenade",""),
+w("Frag grenade",'-','Sx3',"-","-","3","-","1","4+","C","30","Blast (3\"), Grenade, Knockback",""),
+w("Gunk bomb",'-','Sx2',"-","-","2","-","-","5+","C","40","Grenade, Blast (3\"), Gunk",""),
+
+w("Incendiary charge",'-','Sx3',"-","-","3","-","1","5+","R7","40","Blast (5\"), Blaze, Grenade",""),
+w("Krak grenade",'-','Sx3',"-","-1","6","-2","2","4+","R8","45","Demolitions, Grenade",""),
+w("Melta bomb",'-','Sx3',"-","-1","8","-4","3","6+","R11","60","Demolitions, Grenade, Melta",""),
+w("Mindflect shard",'-','Sx3',"-","-","3","-1","1","4+","I10","50","Blast (5\"), Cursed, Esoteric, Grenade",""),
+w("Phosphor canister",'-','Sx3',"-","-1","4","-3","2","5+","R10","40","Blaze, Blast (3\"), Grenade",""),
+w("Photon flash grenade",'-','Sx3',"-","-","-","-","-","5+","R9","15","Blast (5\"), Flash, Grenade",""),
+w("Plasma grenade","-","Sx3","-","-","5","-1","2","4+","-","-","Blast (3\"), Grenade, Unstable",""),
+w("Plasma grenades",'-','Sx3',"-","-","5","-1","2","4+","R10","90","Blast (3\"), Grenade, Unstable",""),
+w("Rad grenade","-","Sx3","-","-","2","-2","1","4+","-","-","Blast (3\"), Grenade, Rad-phage",""),
+
+w("Scare gas grenade",'-','Sx3',"-","-","-","-","-","6+","R10","45","Blast (3\"), Fear, Gas, Grenade",""),
+w("Shard grenades",'-','Sx3',"-","-","2","-2","1","4+","I9","30","Blast (5\"), Cursed, Esoteric, Grenade, Rending",""),
+w("Smoke grenade",'-','Sx3',"-","-","-","-","-","4+","C","15","Blast (*), Grenade, Smoke",""),
+w("Stun grenade",'-','Sx3',"-","-","2","-1","1","4+","R8","15","Blast (3\"), Concussion, Grenade",""),
+],
+"Booby Trap":[
+w("Frag trap",'-','-',"-","-","3","-","1","*","C","20","Blast (5\"), Knockback, Single Shot",""),
+w("Gas trap",'-','-',"-","-","-","-","-","*","R8","40","Blast (5\"), Gas, Single Shot",""),
+w("Melta trap",'-','-',"-","-","8","-4","3","*","R10","50","Blast (5\"), Melta, Single Shot",""),
+],
+"Close Combat":[
+w("Arc welder",'E'," - ","-","-","S+2","-3","3","-","-","-","Blaze, Melee","Model only — not purchasable"),
+w("Augmetic fist","E","-","-","-","S+1","-1","2","-","-","-","Knockback, Melee","Model only — not purchasable"),
+w("Axe",'E','-',"-","-","S+1","-","1","-","C","10","Disarm, Melee",""),
+w("Chain glaive*",'E','2\"',"-1","-","S+2","-2","2","-","R7","60","Melee, Unwieldy, Versatile","Two-handed"),
+w("Chainaxe",'E','-',"-","+1","S+1","-1","1","-","R9","30","Disarm, Melee, Parry, Rending",""),
+w("Chainsword",'E','-',"-","+1","S","-1","1","-","R8","25","Melee, Parry, Rending",""),
+w("Cleaver","E","-","-","-","S+1","-1","1","-","C","20","Disarm, Melee",""),
+w("Desire's needle",'E','-',"-","+1","S+2","-1","-","-","I9","50","Chem Delivery, Esoteric, Melee, Power, Toxin",""),
+w("Digi laser",'E','3\"',"-","-","1","-","1","6+","R10","25","Digi, Melee, Versatile",""),
+w("Fighting knife",'E','-',"-","-","S","-1","1","-","C","15","Backstab, Melee",""),
+w("Flail",'E','-',"-","+1","S+1","-","1","-","C","20","Entangle, Melee",""),
+w("Frag lance (primed)","E",'2"',"+1","-","4","-1","1","-","-","-","Blast (3\"), Lance-bomb, Knockback, Melee, Versatile",""),
+w("- Frag lance (spent)","E",'2"',"+1","-","S","-","1","-","-","-","Lance, Melee, Versatile",""),
+w("Goredrinker axe",'E','-',"-","-","S+3","-1","2","-","I9","40","Esoteric, Melee, Reckless, Rending",""),
+w("Grav fist (Ambot melee)","E","-","-","-","S","-1","2","-","-","-","Melee, Pulverise","Model only — not purchasable"),
+w("- Grav fist (Ambot ranged)",'6"','12"',"+1","-","*","-1","2","5+","-","-","Blast (3\"), Graviton Pulse, Concussion","Model only — not purchasable"),
+w("Greatsword*",'E','1\"',"-","+1","S+1","-1","1","-","R10","40","Melee, Sever, Unwieldy, Versatile","Two-handed"),
+w("Heavy club",'E','-',"-","-","S","-","2","-","C","15","Concussion, Melee",""),
+w("Heavy rock cutter*",'E','-',"-","-","S+4","-4","3","-","R9","135","Melee, Unwieldy","Two-handed"),
+w("Heavy rock drill*",'E','-',"-","-","S+2","-3","2","-","R9","90","Melee, Pulverise, Unwieldy","Two-handed"),
+w("Heavy rock saw*",'E','-',"-","+1","S+3","-3","2","-","R9","120","Melee, Rending, Unwieldy","Two-handed"),
+w("Hex'iron blade",'E','-',"-","-","S+1","-3","1","-","I9","25","Cursed, Esoteric, Melee, Parry",""),
+w("Krak lance (primed)","E",'2"',"+1","-","6","-2","3","-","-","-","Lance-bomb, Melee, Versatile",""),
+w("- Krak lance (spent)","E",'2"',"+1","-","S","-","1","-","-","-","Lance, Melee, Versatile",""),
+w("Las cutter",'E','2\"',"+1","-","9","-3","2","6+","R10","85","Melee, Scarce, Versatile",""),
+w("Lightning claw",'E','-',"-","+1","S+1","-2","1","-","R11","70","Melee, Parry, Power, Rending",""),
+w("Maul (club)",'E','-',"-","-","S","+1","2","-","C","10","Melee",""),
+w("Open fists","E","-","-","-","S","-1","1","-","C","-","Knockback, Melee",""),
+w("Polearm*",'E','2\"',"-1","-","S+1","-","1","-","R9","30","Melee, Unwieldy, Versatile","Two-handed"),
+w("Power axe",'E','-',"-","-","S+2","-2","1","-","R8","35","Disarm, Melee, Power",""),
+w("Power claw",'E','-',"-","-","S","-1","2","-","R11","55","Melee, Power, Pulverise",""),
+w("Power fist",'E','-',"-","-","S+3","-3","3","-","R11","100","Melee, Power, Pulverise, Unwieldy",""),
+w("Power hammer",'E','-',"-","-","S+1","-1","2","-","R8","45","Melee, Power",""),
+w("Power knife",'E','-',"-","-","S+1","-2","1","-","R9","25","Backstab, Melee, Power",""),
+w("Power maul",'E','-',"-","-","S+2","-1","1","-","R8","30","Melee, Power",""),
+w("Power pick",'E','-',"-","-","S+1","-3","1","-","R8","40","Melee, Power, Pulverise",""),
+w("Power sword",'E','-',"-","-","S+1","-2","1","-","R9","50","Melee, Parry, Power",""),
+w("Servo arm (Arachni-rig)","E",'3"',"-","+1","S","-","1","-","E","-","Melee, Versatile","Model only — not purchasable"),
+w("Servo claw",'E','-',"-","-","S+2","-","2","-","R10","35","Melee",""),
+w("Shock baton",'E','-',"-","-","S","-","1","-","R8","30","Melee, Parry, Shock",""),
+w("Shock bite (Cyber-mastiff)","E","-","-","-","S-1","-","1","-","-","-","Melee, Rending, Shock","Model only — not purchasable"),
+w("Shock stave",'E','2\"',"-","-","S+1","-","1","-","R9","25","Melee, Shock, Versatile",""),
+w("Spud-jacker","E","-","-","-","S+1","-","1","-","-","-","Knockback, Melee",""),
+w("Stiletto knife",'E','-',"-","-","-","-","-","-","R9","20","Melee, Toxin",""),
+w("Stiletto sword",'E','-',"-","-","-","-1","-","-","R9","35","Melee, Parry, Toxin",""),
+w("Stun lance (primed)","E",'2"',"+1","-","2","-1","1","-","-","-","Blast (3\"), Lance-bomb, Concussion, Melee, Versatile",""),
+w("- Stun lance (spent)","E",'2"',"+1","-","S","-","1","-","-","-","Lance, Melee, Versatile",""),
+w("Sword",'E','-',"-","+1","S","-1","1","-","R6","20","Melee, Parry",""),
+w("Tenebrous scourge",'E','3\"',"-","-","S+3","-","1","-","I10","60","Entangle, Esoteric, Melee, Power, Versatile",""),
+w("Thunder hammer",'E','-',"-","-","S+1","-1","3","-","R11","70","Melee, Power, Shock",""),
+w("Tunnelling claw (Ambot melee)","E","-","-","-","S","-1","2","-","-","-","Melee","Model only — not purchasable"),
+w("- Tunnelling claw (Ambot ranged)",'4"','8"',"-","-","6","-2","2","5+","-","-","Melta, Scarce, Sidearm","Model only — not purchasable"),
+w("Two-handed axe*",'E','-',"-","-1","S+2","-","2","-","C","25","Melee, Unwieldy","Two-handed"),
+w("Two-handed hammer*",'E','-',"-","-1","S+1","-","3","-","C","35","Knockback, Melee, Unwieldy","Two-handed"),
+w("Venomous bite (Cyberachnid)","E","-","-","-","-","-","-","-","-","-","Melee, Toxin","Model only — not purchasable"),
+
+w("Whip",'E','3\"',"-1","-","S","-","1","-","C","15","Entangle, Melee, Versatile",""),
+w("Whisperbane knife",'E','-',"-","+1","S","-","1","-","I11","30","Backstab, Esoteric, Melee, Scattershot",""),
+w("Xenarch death-arc",'E','5\"',"+1","-","3","-","1","2+","I9","75","Esoteric, Melee, Plentiful, Rapid Fire (2), Shock, Versatile",""),
+]
+};
+
+const SPYRE_HUNTERS_BAKED={
+"Basic":[],"Pistol":[
+w("Bolt launcher",'8"','20"',"+1","-","4","-1","1","4+","E","-","Rapid Fire (1), Sidearm","Spyre Hunters only"),
+w("Disintegration matrix",'3"','12"',"-","-1","5","-2","2","6+","E","60","Scarce, Sever, Sidearm, Unstable","Spyre Hunters only — two disintegration matrix: 60cr"),
+w("Las sub-carbine",'4"','12"',"+1","-","3","-","1","4+","E","-","Plentiful, Rapid Fire (1), Sidearm",""),
+w("Volkite discharger",'5"','10"',"-","-","5","-","1","6+","E","-","Deflagrate, Sidearm","Spyre Hunters only"),
+],
+"Special":[
+w("Combi-weapon flamer/man-catcher (flamer)","-","T","-","-","4","-1","1","5+","E","-","Blaze, Template, Unstable","Spyre Hunters only"),
+w("- Combi-weapon (man-catcher)","-","E","-","-","S","-1","1","-","E","-","Entangle, Melee",""),
+w("Mirror shield",'4"','8"',"-","-1","-","-","-","3+","E","60","Energy Shield, Flash","Spyre Hunters only"),
+w("Rad gun","-","T","-","-","2","-2","1","4+","E","-","Rad-phage, Template",""),
+w("Twin grenade launcher (frag)",'6"','24"',"-1","-","3","-","1","6+","E","-","Blast (3\"), Knockback, Twin-linked","Spyre Hunters only"),
+w("Web incisors",'4"','8"',"-","-","3","-","-","4+","E","-","Silent, Web","Spyre Hunters only"),
+w("Paired web incisors",'4"','8"',"-","-","3","-","-","4+","E","-","Rapid Fire (1), Silent, Web","Spyre Hunters only"),
+w("Yeld laser gauntlet",'10"','20"',"+1","-","3","-1","1","3+","E","30","Plentiful","Spyre Hunters only"),
+w("Paired Yeld laser gauntlets",'10"','20"',"+1","-","3","-1","1","3+","E","-","Plentiful, Rapid Fire (1)","Spyre Hunters only — free with paired Yeld missile gauntlets"),
+w("Yeld missile gauntlet",'15"','30"',"-","-","5","-","1","4+","E","30","Knockback","Spyre Hunters only"),
+w("Paired Yeld missile gauntlets",'15"','30"',"-","-","5","-","1","4+","E","-","Knockback, Rapid Fire (1)","Spyre Hunters only — free with paired Yeld laser gauntlets"),
+],
+"Heavy":[
+w("Twin heavy stubber*",'20"','40"',"-","-1","4","-1","1","4+","E","-","Rapid Fire (2), Twin-linked, Unwieldy, Two-handed","Spyre Hunters only"),
+],
+"Grenade":[],"Booby Trap":[],
+"Close Combat":[
+w("Malcadon slashing claw","E","-","-","-","S","-2","1","-","E","60","Melee","Malcadon Spyre Hunter — with web incisors, grapnel launcher, drop rig"),
+w("Paired Malcadon slashing claws","E","-","-","-","S","-2","1","-","E","-","Melee, Paired","Malcadon Spyre Hunter"),
+w("Malcadon toxin whip","E",'2"',"-","-1","-","-2","-","-","E","60","Entangle, Melee, Toxin","Malcadon Spyre Hunter — with web incisors, grapnel launcher, drop rig"),
+w("Paired Malcadon toxin whips","E",'2"',"-","-1","-","-2","-","-","E","-","Entangle, Melee, Paired, Toxin","Malcadon Spyre Hunter"),
+w("Monomolecular sword","E","-","-","-","S+1","-2","1","-","E","50","Melee, Parry, Power","Jakara Spyre Hunter"),
+w("Naga blade","E",'2"',"-","-","S+2","-1","2","-","E","50","Disarm, Melee, Parry, Versatile","Jakara Spyre Hunter"),
+w("Orrus power fists","E","-","-","-","S+2","-1","2","-","E","50","Melee, Paired, Power","Orrus Spyre Hunter"),
+w("Orrus power talons","E","-","-","-","S+1","-3","1","-","E","-","Melee, Paired","Orrus Spyre Hunter"),
+w("Yeld wings","E","-","-","-","S+1","-1","1","-","E","-","Melee","Yeld Spyre Hunter"),
+]
+};
+
+const MALSTRAIN_BAKED={
+"Basic":[],"Pistol":[],"Special":[],"Heavy":[],"Grenade":[],"Booby Trap":[],
+"Close Combat":[
+w("Feeder tendrils (Malstrain Coalescence)","E","-","-","-","S+1","-1","2","-","E","-","Entangle, Melee","Model only — not purchasable"),
+w("Fighting knife","E","-","-","-","S","-1","1","-","C","10","Backstab, Melee","Malstrain Brood Scum — cheaper than universal (15cr)"),
+w("Razor-sharp claws (Malstrain Genestealer)","E","-","-","-","S+1","-1","2","-","E","-","Melee, Rending","Model only — not purchasable"),
+w("Stinger (Malstrain Tyramite)","E","-","-","-","-","-2","-","-","E","-","Melee, Rad-Phage, Toxin","Model only — not purchasable"),
+w("Venomous bite (Malstrain Genestealer)","E","-","-","-","-","-2","-","-","E","-","Melee, Toxin","Model only — not purchasable"),
+]
+};
+
+const DELAQUE_BAKED={
+"Basic":[
+w("Master-crafted autogun",'8"','24"',"+1","-","3","-","1","4+","E","+5","Master-crafted, Rapid Fire (1)","Delaque only"),
+w("Master-crafted lasgun",'18"','24"',"+1","-","3","-","1","2+","E","+5","Master-crafted, Plentiful","Delaque only"),
+],
+"Pistol":[
+w("Autopistol",'4"','12"',"+1","-","3","-","1","4+","C","5","Rapid Fire (1), Sidearm","Delaque — cheaper than universal (10cr)"),
+w("- Master-crafted autopistol",'4"','12"',"+1","-","3","-","1","4+","E","+5","Master-crafted, Rapid Fire (1), Sidearm","Delaque only"),
+w("Flechette pistol (solid)",'4"','12"',"+1","-","3","-","1","4+","E","30","Rapid Fire (1), Sidearm, Silent","Delaque only"),
+w("- Flechette pistol (fleshbane)",'4"','12"',"-","-","-","-","-","6+","E","-","Rapid Fire (1), Scarce, Sidearm, Silent, Toxin",""),
+w("- Master-crafted flechette pistol (solid)",'4"','12"',"+1","-","3","-","1","4+","E","+10","Master-crafted, Rapid Fire (1), Sidearm, Silent","Delaque only"),
+w("- Master-crafted flechette pistol (fleshbane)",'4"','12"',"-","-","-","-","-","6+","E","-","Master-crafted, Rapid Fire (1), Scarce, Sidearm, Silent, Toxin",""),
+w("Grav pistol",'6"','12"',"+1","-","*","-1","2","5+","R11","90","Blast (3\"), Concussion, Graviton Pulse, Sidearm","Delaque — more expensive than universal (70cr)"),
+w("- Master-crafted grav pistol",'6"','12"',"+1","-","*","-1","2","5+","E","+20","Blast (3\"), Concussion, Graviton Pulse, Master-crafted, Sidearm","Delaque only"),
+w("Master-crafted laspistol",'8"','12"',"+1","-","3","-","1","2+","E","+5","Master-crafted, Plentiful, Sidearm","Delaque only"),
+w("Web pistol","-","T","-","-","4","-","-","6+","E","80","Silent, Template, Web","Delaque — cheaper than universal (90cr)"),
+],
+"Special":[
+w("Grav gun",'9"','18"',"+1","-","*","-1","2","5+","R11","120","Blast (3\"), Concussion, Graviton Pulse",""),
+w("- Master-crafted grav gun",'9"','18"',"+1","-","*","-1","2","5+","E","+25","Blast (3\"), Concussion, Graviton Pulse, Master-crafted","Delaque only"),
+w("Master-crafted long rifle",'24"','48"',"-","+1","4","-1","1","4+","E","+5","Knockback, Master-crafted","Delaque only"),
+w("Web gun","-","T","-","-","5","-","-","5+","E","115","Silent, Template, Web","Delaque — cheaper than universal (125cr)"),
+],
+"Heavy":[],"Booby Trap":[],
+"Grenade":[
+w("Choke gas grenade","-","Sx3","-","-","-","-","-","5+","R9","50","Blast (3\"), Gas, Grenade","Delaque — more expensive than universal (45cr)"),
+w("Photon flash grenade","-","Sx3","-","-","-","-","-","5+","R9","15","Blast (5\"), Flash, Grenade",""),
+w("Scare gas grenade","-","Sx3","-","-","-","-","-","6+","R10","40","Blast (3\"), Fear, Gas, Grenade","Delaque — cheaper than universal (45cr)"),
+w("Stun grenade","-","Sx3","-","-","2","-1","1","4+","R8","10","Blast (3\"), Concussion, Grenade","Delaque — cheaper than universal (15cr)"),
+],
+"Close Combat":[
+w("Digi laser","E",'3"',"-","-","1","-","1","6+","R10","25","Digi, Melee, Versatile",""),
+w("Ferocious jaws (Psychoteric Wyrm)","E","-","-","-","S","-1","1","-","-","-","Melee, Rending","Model only — not purchasable"),
+w("Master-crafted shock stave","E",'2"',"-","-","S+1","-","1","-","E","+5","Master-crafted, Melee, Shock, Versatile","Delaque only"),
+w("Master-crafted stiletto knife","E","-","-","-","-","-","-","-","E","+5","Master-crafted, Melee, Toxin","Delaque only"),
+w("Paired psychomantic claws","E",'3"',"-","-","S+1","*","1","-","E","-","Melee, Paired, Phase, Shock","Model only — not purchasable"),
+w("Serpent's fangs*","E","-","-","-","S+2","*","1","-","E","90","Melee, Paired, Phase, Rending, Unwieldy, Two-handed","Delaque only"),
+w("Shivver sword","E","-","-","+1","S+1","-1","1","-","E","70","Melee, Parry, Power, Sever","Delaque only"),
+w("Shock tendrils (Cephalopod Spektor)","E",'2"',"-","-","S+1","-","1","-","-","-","Melee, Shock, Versatile","Model only — not purchasable"),
+w("Stiletto knife","E","-","-","-","-","-","-","-","E","20","Melee, Toxin","Delaque — cheaper than universal (20cr)"),
+w("Web gauntlet","E","-","-","+1","3","-","-","-","E","35","Backstab, Melee, Web","Delaque only"),
+]
+};
+
+const CAWDOR_BAKED={
+"Basic":[
+w("Cawdor charger/autogun (charger)","E",'2"',"-","-","S+1","-","1","-","-","-","Lance, Melee, Unwieldy, Versatile",""),
+w("- Cawdor charger/autogun (gun)",'8"','24"',"+1","-","3","-","1","5+","-","-","Rapid Fire (1)",""),
+w("Cawdor charger/blunderbuss (charger)","E",'2"',"-","-","S+1","-","1","-","-","-","Lance, Melee, Unwieldy, Versatile",""),
+w("- Cawdor charger/blunderbuss (grape shot)","-","T","-","-","2","-","1","6+","-","-","Plentiful, Scattershot, Template",""),
+w("- Cawdor charger/blunderbuss (purgation shot)","-","T","-","-","3","-","1","6+","-","-","Blaze, Scarce, Template",""),
+w("Cawdor charger/flamer (charger)","E",'2"',"-","-","S+1","-","1","-","-","-","Lance, Melee, Unwieldy, Versatile",""),
+w("- Cawdor charger/flamer (flamer)","-","T","-","-","4","-1","1","5+","-","-","Blaze, Template",""),
+w("Cawdor polearm with autogun*","E",'2"',"-1","-","S+1","-","1","-","E","20","Melee, Unwieldy, Versatile","Cawdor only"),
+w("- Cawdor polearm with autogun (autogun)",'8"','24"',"+1","-","3","-","1","5+","-","-","Rapid Fire (1)",""),
+w("- Master-crafted Cawdor polearm with autogun*","E",'2"',"-1","-","S+1","-","1","-","E","+5","Master-crafted, Melee, Unwieldy, Versatile",""),
+w("- Master-crafted autogun (upgrade)",'8"','24"',"+1","-","3","-","1","5+","-","-","Master-crafted, Rapid Fire (1)",""),
+w("Cawdor polearm with blunderbuss*","E",'2"',"-1","-","S+1","-","1","-","E","40","Melee, Unwieldy, Versatile","Cawdor only"),
+w("- Cawdor polearm/blunderbuss (grape shot)","-","T","-","-","2","-","1","6+","-","-","Plentiful, Scattershot, Template",""),
+w("- Cawdor polearm/blunderbuss (purgation shot)","-","T","-","-","3","-","1","6+","-","-","Blaze, Scarce, Template",""),
+w("- Cawdor polearm/blunderbuss (Emperor's Wrath)",'8"','12"',"-","-1","4","-1","2","4+","-","+35","Knockback, Pulverise",""),
+w("- Master-crafted Cawdor polearm with blunderbuss*","E",'2"',"-1","-","S+1","-","1","-","E","+10","Master-crafted, Melee, Unwieldy, Versatile",""),
+w("Exterminator","-","T","-","-","3","-1","1","*","E","-","Blaze, Single Shot, Template","Cawdor auxiliary — add to autogun"),
+w("Master-crafted autogun",'8"','24"',"+1","-","3","-","1","4+","E","+5","Master-crafted, Rapid Fire (1)","Cawdor only"),
+w("- Autogun with exterminator","-","T","-","-","3","-1","1","*","E","+15","Blaze, Single Shot, Template","Cawdor exterminator upgrade"),
+w("- Sawn-off shotgun (solid)",'4"','8"',"+1","-","4","-","2","4+","C","+10","Knockback, Plentiful",""),
+w("- Shotgun (retributor ammo)",'4"','8"',"+1","-","4","-","1","5+","E","+20","Blaze, Scattershot","Cawdor only"),
+w("- Shotgun with exterminator","-","T","-","-","3","-1","1","*","E","+15","Blaze, Single Shot, Template","Cawdor exterminator upgrade"),
+],
+"Pistol":[
+w("Master-crafted autopistol",'4"','12"',"+1","-","3","-","1","4+","E","-","Master-crafted, Rapid Fire (1), Sidearm","Cawdor only"),
+w("Master-crafted bolt pistol",'6"','12"',"+1","-","4","-1","2","6+","E","-","Master-crafted, Sidearm","Cawdor only"),
+w("Rogue Factoria combi-pistol (primary autopistol)",'4"','12"',"+1","-","3","-","1","4+","E","-","Combi, Rapid Fire (1), Sidearm","Cawdor only"),
+w("- Rogue Factoria combi-pistol (plasma secondary)",'6"','12"',"+2","-","5","-1","2","5+","E","-","Combi, Scarce, Sidearm",""),
+w("- Rogue Factoria combi-pistol (hand flamer secondary)","-","T","-","-","3","-","1","5+","E","-","Blaze, Combi, Template",""),
+w("- Rogue Factoria combi-pistol (laspistol secondary)",'8"','12"',"+1","-","3","-","1","2+","E","-","Combi, Plentiful, Sidearm",""),
+w("- Rogue Factoria combi-pistol (stub gun secondary)",'6"','12"',"+2","-","3","-","1","4+","E","-","Combi, Plentiful, Sidearm",""),
+],
+"Special":[
+w("Cawdor combi-weapon autogun/flamer (primary)",'8"','24"',"+1","-","3","-","1","4+","E","-","Combi, Rapid Fire (1)","Cawdor only"),
+w("- Cawdor combi-weapon (flamer secondary)","-","T","-","-","4","-1","1","5+","E","110","Blaze, Combi, Template, Unstable",""),
+w("Fire pike","-","T","-","-","4","-2","1","5+","E","140","Blaze, Rending, Template","Cawdor only"),
+w("Flamer","-","T","-","-","4","-1","1","5+","R7","130","Blaze, Template","Cawdor — cheaper than universal"),
+w("Grenade launcher (frag)",'6"','24"',"-1","-","3","-","1","6+","R8","65","Blast (3\"), Knockback",""),
+w("- Grenade launcher (krak)",'6"','24"',"-1","-","6","-2","2","6+","E","-","",""),
+w("- Grenade launcher (photon flash)",'6"','24"',"-","-","-","-","-","5+","R9","+15","Blast (5\"), Flash",""),
+w("- Grenade launcher (smoke)",'6"','24"',"-1","-","-","-","-","4+","C","+15","Blast (*), Smoke",""),
+w("Master-crafted long rifle",'24"','48"',"-","+1","4","-1","1","4+","E","+5","Knockback, Master-crafted","Cawdor only"),
+],
+"Heavy":[
+w("Cawdor heavy crossbow* (frag shell)",'15"','30"',"-","-1","4","-","1","4+","E","125","Blast (5\"), Knockback, Unwieldy, Two-handed","Cawdor only"),
+w("- Cawdor heavy crossbow* (krak shell)",'15"','30"',"-","-1","6","-2","2","6+","E","-","Unwieldy, Two-handed",""),
+w("Twin-linked heavy stubber* (Stig-shambler)",'20"','40"',"-","-1","4","-1","2","4+","E","-","Rapid Fire (3), Twin-linked, Unwieldy, Two-handed","Cawdor Stig-shambler only"),
+],
+"Grenade":[
+w("Choke gas grenade","-","Sx3","-","-","-","-","-","5+","R9","50","Blast (3\"), Gas, Grenade","Cawdor — more expensive than universal (45cr)"),
+w("Incendiary charge","-","Sx3","-","-","3","-","1","5+","R7","40","Blast (5\"), Blaze, Grenade",""),
+],
+"Booby Trap":[],
+"Close Combat":[
+w("Beak & talons (Sheen Bird)","E","-","-","-","S","-1","2","-","-","-","Melee, Rending","Model only — not purchasable"),
+w("Eviscerator (melee)","E",'1"',"-","-","S+1","-1","1","-","E","90","Melee, Sever, Shred, Unwieldy, Versatile, Two-handed","Cawdor only"),
+w("- Eviscerator (ranged)","-","T","-","-","3","-1","1","5+","E","-","Blaze, Scarce, Template",""),
+w("- Master-crafted eviscerator (melee)","E",'1"',"-","-","S+1","-1","1","-","E","+20","Master-crafted, Melee, Sever, Shred, Unwieldy, Versatile, Two-handed","Cawdor only"),
+w("- Master-crafted eviscerator (ranged)","-","T","-","-","3","-1","1","5+","E","-","Blaze, Master-crafted, Scarce, Template",""),
+w("Master-crafted chainaxe","E","-","-","+1","S+1","-1","1","-","E","+5","Disarm, Master-crafted, Melee, Parry, Rending","Cawdor only"),
+w("- Chainaxe with exterminator","E","-","-","+1","S+1","-1","1","-","E","+15","Disarm, Melee, Parry, Rending — exterminator upgrade","Cawdor only"),
+w("Master-crafted chain glaive","E",'2"',"-1","-","S+2","-2","2","-","E","+15","Master-crafted, Melee, Unwieldy, Versatile, Two-handed","Cawdor only"),
+w("Master-crafted chainsword","E","-","-","+1","S","-1","1","-","E","+5","Master-crafted, Melee, Parry, Rending","Cawdor only"),
+w("Master-crafted fighting knife","E","-","-","-","S","-1","1","-","E","+5","Backstab, Master-crafted, Melee","Cawdor only"),
+w("Master-crafted greatsword*","E",'1"',"-","+1","S+1","-1","1","-","E","+10","Master-crafted, Melee, Sever, Unwieldy, Versatile, Two-handed","Cawdor only"),
+w("Master-crafted two-handed axe*","E","-","-1","-","S+2","-","2","-","E","+5","Master-crafted, Melee, Unwieldy, Two-handed","Cawdor only"),
+w("- Two-handed axe with exterminator","-","T","-","-","3","-1","1","*","E","+15","Blaze, Single Shot, Template","Cawdor exterminator upgrade"),
+
+w("Stiletto knife","E","-","-","-","-","-","-","-","E","-","Melee, Toxin","Cawdor only"),
+]
+};
+
+
+const SQUATS_BAKED={
+"Basic":[
+w("Blast carbine",'10"','24"',"+2","-","3","-","1","5+","E","25","Rapid Fire (1), Shock","Ash Waste Nomads / Ironhead Squats"),
+w("Blast rifle",'10"','24"',"+1","-","3","-","1","4+","E","15","Shock","Ash Waste Nomads / Ironhead Squats"),
+w("Ironhead autogun",'8"','24"',"+1","-","3","-","1","4+","E","25","Rapid Fire (2)","Ironhead Squats only"),
+w("Ironhead boltgun",'12"','24"',"+1","-","4","-1","2","6+","E","95","Rapid Fire (2)","Ironhead Squats only"),
+w("Ironhead combat shotgun",'8"','16"',"+1","-","4","-","2","4+","E","40","Knockback, Rapid Fire (1)","Ironhead Squats only"),
+w("Scavenged autogun",'8"','24"',"+1","-","3","-","1","5+","E","10","Rapid Fire (1)","Ash Waste Nomads / Ironhead Squats"),
+w("Twin-linked Ironhead autogun",'8"','24"',"+1","-","3","-","1","4+","E","-","Rapid Fire (2), Twin-linked","Ironhead Squats only"),
+w("Twin-linked Ironhead boltgun",'12"','24"',"+1","-","4","-1","2","6+","E","-","Rapid Fire (2), Twin-linked","Ironhead Squats only"),
+],
+"Pistol":[
+w("Blast pistol",'8"','12"',"+1","-","3","-","1","4+","E","15","Sidearm, Shock","Ash Waste Nomads / Ironhead Squats"),
+w("Ironhead autopistol",'4"','12"',"+1","-","3","-","1","4+","E","20","Rapid Fire (2), Sidearm","Ironhead Squats only"),
+w("Ironhead bolt pistol",'6"','12"',"+1","-","4","-1","2","6+","E","45","Rapid Fire (1), Sidearm","Ironhead Squats only"),
+w("Ironhead hand flamer","-","T","-","-","3","-","1","5+","E","85","Blaze, Firestorm (1), Template","Ironhead Squats only"),
+w("Ironhead inferno pistol",'4"','7"',"-","-","8","-3","2","6+","E","160","Melta, Rapid Fire (1), Scarce, Sidearm","Ironhead Squats only"),
+w("Ironhead stub gun",'6"','12"',"+2","-","3","-","1","4+","E","10","Plentiful, Rapid Fire (1), Sidearm","Ironhead Squats only"),
+w("- Ironhead stub gun (dumdum)",'5"','10"',"+1","-","4","-","1","4+","E","+5","Limited, Rapid Fire (1), Sidearm",""),
+w("Bolt spitter",'4"','10"',"+1","-","4","-1","1","5+","E","40","Power Pack, Rapid Fire (1), Sidearm","Ironhead Squats only"),
+w("Las sub-carbine",'4"','12"',"+1","-","3","-","1","4+","E","-","Plentiful, Rapid Fire (1), Sidearm",""),
+w("Scavenged stub gun",'6"','12"',"+2","-","3","-","1","4+","E","5","Sidearm","Ash Waste Nomads / Ironhead Squats"),
+w("Stone burner",'2"','4"',"-","-","5","-2","2","5+","E","70","Melta, Power Pack, Scarce, Sidearm","Ironhead Squats only"),
+],
+"Special":[
+w("Ironhead flamer","-","T","-","-","4","-1","1","5+","E","150","Blaze, Firestorm (1), Template","Ironhead Squats only"),
+w("Ironhead grenade launcher (seismic)",'6"','24"',"-1","-","3","-1","1","5+","E","50","Blast (3\"), Knockback, Seismic","Ironhead Squats only"),
+w("Ironhead meltagun",'6"','12"',"+1","-","8","-4","3","5+","E","155","Melta, Rapid Fire (1), Scarce","Ironhead Squats only"),
+w("Twin-linked meltagun",'6"','12"',"+1","-","8","-4","3","5+","E","-","Melta, Scarce, Twin-linked","Ironhead Squats only"),
+w("Venom caster","-","T","-","-","-","-1","-","6+","E","160","Scarce, Silent, Template, Toxin","Ash Waste Nomads only"),
+],
+"Heavy":[
+w("Charge caster* (shock blast)",'20"','40"',"+1","-","4","-","1","6+","E","155","Blast (5\"), Shock, Unwieldy, Two-handed","Ash Waste Nomads only"),
+w("- Charge caster* (krak rocket)",'20"','40"',"+1","-","6","-2","3","6+","E","-","Unwieldy, Two-handed",""),
+w("Heavy blaster*",'12"','36"',"+1","-","4","-1","1","5+","E","140","Rapid Fire (2), Shock, Unwieldy, Two-handed","Ash Waste Nomads only"),
+w("Heavy melta*",'9"','18"',"+1","-","8","-4","3","4+","E","-","Melta, Rapid Fire (1), Scarce, Unwieldy, Two-handed","Ironhead Squats only"),
+w("Ironhead heavy flamer*","-","T","-","-","5","-2","1","6+","E","210","Blaze, Firestorm (1), Template, Unwieldy, Two-handed","Ironhead Squats only"),
+w("Ironhead heavy stubber*",'20"','40"',"-","-1","4","-1","1","4+","E","140","Rapid Fire (3), Unwieldy, Two-handed","Ironhead Squats only"),
+w("Mortar*",'24"','48"',"-1","-","4","-","1","4+","E","-","Blast (5\"), Unwieldy, Two-handed","Ironhead Squats only"),
+w("Seismic crusher","-","T","-","-","2","-","1","6+","E","-","Concussive, Seismic, Template","Ironhead Squats only"),
+w("Twin linked autocannon*",'24"','48"',"-","-","7","-2","2","4+","E","-","Knockback, Rapid Fire (1), Twin-linked, Unwieldy, Two-handed","Ironhead Squats only"),
+w("Vartijan heavy bolter",'18"','36"',"+1","-","5","-2","2","5+","E","-","Rapid Fire (3)","Ironhead Squats only"),
+w("Vartijan heavy flamer","-","T","-","-","5","-2","2","5+","E","-","Blaze, Firestorm (1), Template","Ironhead Squats only"),
+],
+"Grenade":[],"Booby Trap":[],
+"Close Combat":[
+w("Chain lance","E",'2"',"-1","-","S+2","-2","2","-","E","55","Lance, Melee, Unwieldy, Versatile, Two-handed","Ash Waste Nomads only"),
+w("Circular stone saw","E","-","-","-","S+1","-1","1","-","E","25","Melee, Power Pack, Rending","Ironhead Squats only"),
+w("Drill (Techmite Autoveyor)","E","-","-","-","3","-1","1","-","E","-","Melee","Techmite Autoveyor"),
+w("Fanged maw (Millisaur)","E","-","-","-","*","-","-","-","-","-","Melee, Toxin","Model only — not purchasable"),
+w("Fangs (Wasteland Giant Rat)","E","-","-","-","S","-","1","-","-","-","Melee","Model only — not purchasable"),
+w("Gem extractor","E","-","-","-","S+1","-1","2","-","E","50","Melee, Power Pack","Ironhead Squat Prospectors"),
+w("Hunters polearm","E","-","-","-","S+1","-1","1","-","E","-","Melee","Ash Waste Nomads only"),
+w("Ironhead arc welder","E","-","-","-","S+2","-2","3","-","E","100","Blaze, Melee, Power Pack","Ironhead Squats only"),
+w("Power fist","E","-","-","-","S+2","-2","2","-","E","60","Melee, Power, Pulverise","Ironhead Squats only"),
+w("Excavator hammer*","E",'2"',"-","-1","S+2","-1","3","-","E","50","Melee, Pulverise, Unwieldy, Versatile, Two-handed","Ironhead Squats only"),
+w("Heavy drill","E","-","-","-","S","-1","2","-","E","35","Melee, Rending","Ironhead Squats only"),
+w("Hydraulic drill","E","-","-","-","S+1","-","1","-","E","25","Entangle, Melee","Ironhead Squats only"),
+w("Ironhead power fist","E","-","-","-","S+2","-2","2","-","E","-","Melee, Power, Pulverise","Ironhead Squats only"),
+w("Pincer (Techmite Oculi)","E","-","-","-","2","-","1","-","E","-","Melee","Model only — not purchasable"),
+w("Rock saw","E","-","-","-","S+1","-1","2","-","E","35","Melee, Rending","Ironhead Squats only"),
+w("Two-handed chainaxe*","E","-","-","-","S+2","-1","2","-","E","40","Melee, Rending, Unwieldy, Two-handed","Ironhead Squats only"),
+w("Two-handed power axe*","E",'2"',"-","-1","S+2","-1","2","-","E","65","Disarm, Melee, Power, Unwieldy, Versatile, Two-handed","Ironhead Squats only"),
+w("Two-handed power pick*","E",'2"',"-","-1","S+1","-3","2","-","E","75","Melee, Power, Pulverise, Unwieldy, Versatile, Two-handed","Ironhead Squats only"),
+w("Long blade","E","-","-","+1","S","-2","1","-","E","30","Melee, Parry","Ash Waste Nomads only"),
+w("Mandibles (Arthromite Duneskuttler)","E","-","-","-","S","-1","2","-","-","-","Melee, Rending","Model only — not purchasable"),
+w("Mono-hook","E","-","-","-","S","-1","2","-","E","35","Melee, Pulverise","Ash Waste Nomads only"),
+w("Stalking knife","E","-","-","+1","S","-1","1","-","E","20","Backstab, Melee","Ash Waste Nomads only"),
+w("Stormcaller Staff","E",'2"',"-","-","S+1","-2","1","-","E","35","Lance, Melee, Unwieldy, Versatile, Two-handed","Ash Waste Nomads Stormcaller only"),
+w("Teeth (Ripperjack)","E","-","-","-","S","-","2","-","-","-","Melee","Model only — not purchasable"),
+w("Vartijan fist","E","-","-","-","S","-1","2","-","E","-","Melee, Power, Pulverise","Ironhead Squats only"),
+]
+};
+
+
+const ENFORCERS_BAKED={
+"Basic":[
+w("Enforcer boltgun",'12"','24"',"+1","-","4","-1","2","4+","E","50","Rapid Fire (1)","Enforcers only — cheaper than universal boltgun (55cr)"),
+w("- Enforcer boltgun (penetrator rounds)",'12"','24"',"+1","-","4","-2","2","4+","E","+20","Rapid Fire (1), Rending, Unstable",""),
+w("Enforcer shotgun (salvo)",'4"','12"',"+1","-","4","-","2","4+","E","60","Knockback, Rapid Fire (1)","Enforcers only"),
+w("- Enforcer shotgun (shredder)","-","T","-","-","2","-","1","4+","E","-","Scattershot, Template",""),
+w("Subjugation pattern grenade launcher (frag)",'6"','24"',"-1","-","3","-","1","6+","E","50","Blast (3\"), Knockback","Enforcers only"),
+w("- Subjugation GL (stun)",'6"','24"',"-","-","2","-1","1","4+","E","-","Concussion",""),
+w("- Subjugation GL (choke gas)",'6"','24"',"-1","-","-","-","-","5+","E","+30","Blast (3\"), Gas, Limited",""),
+w("- Subjugation GL (krak)",'6"','24"',"-1","-","6","-2","2","6+","E","+35","",""),
+w("- Subjugation GL (photon flash)",'6"','24"',"-","-","-","-","-","5+","E","+15","Blast (5\"), Flash",""),
+w("- Subjugation GL (scare gas)",'6"','24"',"-1","-","-","-","-","6+","E","+40","Blast (3\"), Fear, Gas, Limited",""),
+w("- Subjugation GL (smoke)",'6"','24"',"-1","-","-","-","-","4+","E","+15","Blast (*), Smoke",""),
+],
+"Pistol":[
+w("Shock pistol",'4"','8"',"+1","-","3","-1","1","5+","E","-","Incapacitate, Shock, Sidearm","Enforcers only"),
+w("- Autopistol (fragmentation rounds)",'4"','12"',"+1","-","3","-1","1","4+","E","+10","Rapid Fire (1), Limited, Sidearm","Enforcers only"),
+w("- Autopistol (manstopper rounds)",'4"','12"',"+1","-","4","-","1","4+","E","+10","Rapid Fire (1), Limited, Sidearm","Enforcers only"),
+],
+"Special":[
+w("Bolter combi-weapon (bolter primary)",'12"','24"',"+1","-","4","-1","2","6+","R8","-","Combi, Rapid Fire (1)","Enforcers only"),
+w("- Bolter combi-weapon (grenade launcher secondary)",'6"','24"',"-1","-","3","-","1","6+","R8","60","Blast (3\"), Combi, Knockback",""),
+w("- Bolter combi-weapon (krak secondary)",'6"','24"',"-1","-","6","-2","2","6+","R8","+25","Combi",""),
+w("- Bolter combi-weapon (stun secondary)",'6"','24"',"-","-","2","-1","1","6+","R8","+20","Combi, Concussion, Rapid Fire (1)",""),
+w("Concussion carbine",'9"','18"',"+1","-","3","-1","1","4+","E","30","Blast (3\"), Concussion, Knockback, Seismic","Enforcers only"),
+w("Disintegration gun",'8"','24"',"-","-1","5","-3","2","6+","E","-","Rapid Fire (1), Scarce, Sever, Unstable","Enforcers only"),
+w("Grenade launcher array (photon flash)",'6"','18"',"-","-","-","-","-","5+","E","-","Blast (5\"), Flash","Enforcers only"),
+w("- Grenade launcher array (choke gas)",'6"','18"',"-1","-","-","-","-","5+","E","+35","Blast (3\"), Gas, Limited",""),
+w("- Grenade launcher array (scare gas)",'6"','18"',"-1","-","-","-","-","6+","E","+45","Blast (3\"), Fear, Gas, Limited",""),
+w("- Grenade launcher array (smoke)",'6"','18"',"-1","-","-","-","-","4+","E","+15","Blast (*), Smoke",""),
+w("- Grenade launcher array (stun)",'6"','18"',"-","-","2","-1","1","4+","E","+25","Concussion","Enforcers only"),
+w("Repulsion pattern chem-thrower","-","T","-","-","-","-","-","5+","E","90","Fear, Gas, Template","Enforcers only"),
+w("Sniper rifle",'24"','48"',"-","+1","4","-1","1","4+","E","35","Knockback, Rending","Enforcers only"),
+w("Storm-welder*",'8"','16"',"+1","-","5","-","1","3+","E","75","Rapid Fire (3), Reckless, Shock, Unstable, Two-handed",""),
+],
+"Heavy":[
+w("Concussion cannon",'9"','18"',"+1","-","4","-1","2","4+","E","80","Blast (3\"), Concussion, Knockback, Seismic","Enforcers only"),
+w("Twin-linked concussion cannon*",'9"','18"',"+1","-","4","-1","2","4+","E","-","Blast (3\"), Concussion, Knockback, Seismic, Twin-linked, Two-handed","Enforcers only"),
+w("Heavy concussion ram*",'15"','30"',"+1","-","4","-1","1","4+","E","70","Concussion, Knockback, Seismic, Two-handed","Enforcers only"),
+w("Twin-linked heavy stubber*",'20"','40"',"-","-1","4","-1","1","4+","E","-","Rapid Fire (2), Twin-linked, Unwieldy, Two-handed","Enforcers only"),
+w("SLHG assault ram* (ram)","E",'2"',"-","-","S+2","-1","2","-","E","90","Knockback, Melee, Pulverise, Versatile","Enforcers only"),
+w("- SLHG assault ram (choke gas)",'6"','24"',"-1","-","-","-","-","5+","E","-","Blast (3\"), Gas, Limited",""),
+w("- SLHG assault ram (frag)",'6"','24"',"-1","-","3","-","1","6+","E","-","Blast (3\"), Knockback",""),
+],
+"Grenade":[
+w("Choke gas grenade","-","Sx3","-","-","-","-","-","5+","R9","50","Blast (3\"), Gas, Grenade","Enforcers — more expensive than universal (45cr)"),
+],
+"Booby Trap":[],
+"Close Combat":[
+w("Canine jaws (Hacked Cyber-mastiff)","E","-","-","-","S","-1","1","-","E","-","Melee, Rending","Model only — not purchasable"),
+w("Heavy shock baton","E","-","-","-","S+1","-","2","-","E","-","Concussion, Melee, Parry, Shock","Enforcers only"),
+w("Pacifier assault claw","E","-","-","-","S-1","-","2","-","E","-","Melee, Pulverise","Enforcers only"),
+w("Riot shield","E","-","-","-","S","-","1","-","E","35","Assault Shield, Melee","Enforcers only"),
+w("Sanction mancatcher (melee)","E","-","-","-","S-1","-","1","-","E","100","Entangle, Melee","Enforcers only"),
+w("- Sanction mancatcher (ranged)","-","T","-","-","5","-","-","5+","E","-","Silent, Template, Web",""),
+w("Shock bite (Hardcase Cyber-mastiff)","E","-","-","-","S","-1","1","-","E","-","Melee, Rending, Shock","Model only — not purchasable"),
+w("Spud-jacker","E","-","-","-","S+1","-","1","-","E","-","Knockback, Melee","Enforcers only"),
+w("Vigilance pattern assault shield","E","-","-","-","S","-","1","-","E","40","Assault Shield, Knockback, Melee","Enforcers only"),
+]
+};
+
+const ASH_WASTES_BAKED={
+"Basic":[
+w("Blast carbine",'10"','24"',"+2","-","3","-","1","5+","E","25","Rapid Fire (1), Shock","Ash Waste Nomads / Ironhead Squats"),
+w("Blast rifle",'10"','24"',"+1","-","3","-","1","4+","E","15","Shock","Ash Waste Nomads / Ironhead Squats"),
+w("Ironhead combat shotgun",'8"','16"',"+1","-","4","-","2","4+","E","40","Knockback, Rapid Fire (1)","Ironhead Squats only"),
+w("Scavenged autogun",'8"','24"',"+1","-","3","-","1","5+","E","10","Rapid Fire (1)","Ash Waste Nomads / Ironhead Squats"),
+w("Twin-linked Ironhead autogun",'8"','24"',"+1","-","3","-","1","4+","E","-","Rapid Fire (2), Twin-linked","Ironhead Squats only"),
+w("Twin-linked Ironhead boltgun",'12"','24"',"+1","-","4","-1","2","6+","E","-","Rapid Fire (2), Twin-linked","Ironhead Squats only"),
+],
+"Pistol":[
+w("Blast pistol",'8"','12"',"+1","-","3","-","1","4+","E","15","Sidearm, Shock","Ash Waste Nomads / Ironhead Squats"),
+w("Scavenged stub gun",'6"','12"',"+2","-","3","-","1","4+","E","5","Sidearm","Ash Waste Nomads / Ironhead Squats"),
+],
+"Special":[
+w("Venom caster","-","T","-","-","-","-1","-","6+","E","160","Scarce, Silent, Template, Toxin","Ash Waste Nomads only"),
+],
+"Heavy":[
+w("Charge caster* (shock blast)",'20"','40"',"+1","-","4","-","1","6+","E","155","Blast (5\"), Shock, Unwieldy, Two-handed","Ash Waste Nomads only"),
+w("- Charge caster* (krak rocket)",'20"','40"',"+1","-","6","-2","3","6+","E","-","Unwieldy, Two-handed",""),
+w("Heavy blaster*",'12"','36"',"+1","-","4","-1","1","5+","E","140","Rapid Fire (2), Shock, Unwieldy, Two-handed","Ash Waste Nomads only"),
+w("Twin-linked concussion cannon*",'9"','18"',"+1","-","4","-1","2","4+","E","-","Blast (3\"), Concussion, Knockback, Seismic, Twin-linked, Two-handed","Ash Waste Arachni-rig"),
+w("Twin-linked heavy las carbine",'15"','30"',"+1","-","4","-","1","4+","E","-","Plentiful, Rapid Fire (3), Twin-linked","Ash Waste Arachni-rig"),
+w("Twin-linked heavy stubber*",'20"','40"',"-","-1","4","-1","1","4+","E","-","Rapid Fire (2), Twin-linked, Unwieldy, Two-handed","Ash Waste Arachni-rig"),
+],
+"Grenade":[],"Booby Trap":[],
+"Close Combat":[
+w("Boning sword","E","-","-","-","S","-2","2","-","C","20","Melee, Parry, Rending",""),
+w("Butcher's chain cleaver","E","-","-","-","S+1","-2","2","-","R7","45","Melee, Shred",""),
+w("Butcher's cleaver","E","-","-","-","S+1","-1","1","-","C","25","Disarm, Melee",""),
+w("Chain lance","E",'2"',"-1","-","S+2","-2","2","-","E","55","Lance, Melee, Unwieldy, Versatile, Two-handed","Ash Waste Nomads only"),
+w("Flensing knife","E","-","-","-","S","-1","1","-","C","15","Melee, Rending",""),
+w("Heavy chain cleaver","E","-","-","+1","S+2","-2","2","-","R7","80","Melee, Sever",""),
+w("Hunters polearm","E","-","-","-","S+1","-1","1","-","E","-","Melee","Ash Waste Nomads only"),
+w("Long blade","E","-","-","+1","S","-2","1","-","E","30","Melee, Parry","Ash Waste Nomads only"),
+w("Mono-hook","E","-","-","-","S","-1","2","-","E","35","Melee, Pulverise","Ash Waste Nomads only"),
+w("Rotary flensing saw","E",'4"',"-","-1","S+1","-2","2","-","R9","55","Knockback, Melee, Shred, Versatile",""),
+w("Stalking knife","E","-","-","+1","S","-1","1","-","E","20","Backstab, Melee","Ash Waste Nomads only"),
+w("Stormcaller Staff","E",'2"',"-","-","S+1","-2","1","-","E","35","Lance, Melee, Unwieldy, Versatile, Two-handed","Ash Waste Nomads Stormcaller only"),
+]
+};
+
+const CORPSE_GRINDER_BAKED={
+"Basic":[],"Pistol":[],"Special":[],"Heavy":[],"Grenade":[],"Booby Trap":[],"Close Combat":[
+w("Paired Butcher's chain cleavers","E","-","-","-","S+1","-2","2","-","E","80","Melee, Paired, Shred","Corpse Grinder Cult only"),
+w("Paired heavy chain cleavers","E","-","-","+1","S+2","-2","2","-","E","130","Melee, Paired, Sever","Corpse Grinder Cult only"),
+]
+};
+
+
+const VAN_SAAR_BAKED={
+"Basic":[
+w("Las carbine",'10"','24"',"+1","-","3","-","1","4+","-","20","Plentiful, Rapid Fire (1)","Van Saar only"),
+w("Lasgun",'18"','24"',"+1","-","3","-","1","2+","C","10","Plentiful","Van Saar — cheaper than universal (15cr)"),
+w("Master-crafted las carbine",'10"','24"',"+1","-","3","-","1","4+","-","+5","Master-crafted, Plentiful, Rapid Fire (1)","Van Saar only"),
+w("Master-crafted lasgun",'18"','24"',"+1","-","3","-","1","2+","-","+5","Master-crafted, Plentiful","Van Saar only"),
+w("Master-crafted suppression laser (broad)",'4"','8"',"+2","-","2","-","1","4+","-","+10","Master-crafted, Plentiful, Scattershot","Van Saar only"),
+w("- Master-crafted suppression laser (short burst)",'8"','16"',"+1","-","4","-","2","4+","-","-","Knockback, Master-crafted, Plentiful","Van Saar only"),
+
+w("Suppression laser (broad burst)",'4"','8"',"+2","-","2","-","1","4+","-","40","Plentiful, Scattershot","Van Saar only"),
+w("- Suppression laser (short burst)",'8"','16"',"+1","-","4","-","2","4+","-","-","Knockback, Plentiful","Van Saar only"),],
+"Pistol":[
+w("Las sub-carbine",'4"','12"',"+1","-","3","-","1","4+","-","15","Plentiful, Rapid Fire (1), Sidearm","Van Saar only"),
+w("Laspistol",'8"','12"',"+1","-","3","-","1","2+","C","5","Plentiful, Sidearm","Van Saar — cheaper than universal (10cr)"),
+
+w("Master-crafted las sub-carbine",'4"','12"',"+1","-","3","-","1","4+","-","+5","Master-crafted, Plentiful, Rapid Fire (1), Sidearm","Van Saar only"),
+
+w("Master-crafted laspistol",'8"','12"',"+1","-","3","-","1","2+","-","+5","Master-crafted, Plentiful, Sidearm","Van Saar only"),
+w("Van Saar combi las pistol (primary)",'8"','12"',"+1","-","3","-","1","2+","-","130","Combi, Plentiful, Sidearm","Van Saar only"),
+w("- Van Saar combi-pistol plasma (secondary)",'12"','24"',"+2","-","5","-1","2","5+","-","-","Combi, Rapid Fire (1), Scarce","Van Saar only"),
+w("- Van Saar combi-pistol melta (secondary)",'6"','12"',"+1","-","8","-4","3","4+","-","-","Combi, Melta, Scarce","Van Saar only"),],
+"Special":[
+w("Rad beamer (focused beam)",'12"','24"',"+2","-","3","-2","1","5+","-","70","Rad-phage","Van Saar only"),
+w("- Rad beamer (dispersed beam)",'12"','24"',"-","-","2","-2","1","5+","-","-","Rapid Fire (1), Rad-phage","Van Saar only"),
+w("Rad gun","-","T","-","-","2","-2","1","4+","-","100","Rad-phage, Template","Van Saar only"),
+],
+"Heavy":[
+w("Rad cannon*",'16"','32"',"-","-1","2","-2","1","4+","-","130","Blast (5\"), Rad-phage, Unwieldy","Van Saar only, Two-handed"),
+],"Grenade":[
+w("Plasma grenades",'-','Sx3',"-","-","5","-1","2","4+","R10","65","Blast (3\"), Grenade, Unstable",""),
+w("Rad grenade",'-','Sx3',"-","-","2","-2","1","4+","R10","25","Blast (3\"), Grenade, Rad-phage",""),
+w("Stun grenade",'-','Sx3',"-","-","2","-1","1","4+","R8","25","Blast (3\"), Concussion, Grenade",""),
+],"Booby Trap":[],
+"Close Combat":[
+w("Hystrar pattern energy shield","E","-","-","-","S","-","1","-","-","50","Knockback, Melee, Shield","Van Saar only"),
+w("Master-crafted power sword","E","-","-","-","S+1","-2","1","-","-","-","Master-crafted, Melee, Parry, Power","Van Saar only"),
+
+w("Servo claw",'E','-',"-","-","S+2","-","2","-","R10","30","R10","30"),
+
+w("Spider-rig","E",'3"',"+1","+1","S+1","-1","1","-","-","80","Entangle, Melee, Paired, Parry, Shock, Versatile","Van Saar only"),]
+};
+
+
+const GOLIATH_BAKED={
+"Basic":[
+w("Combat shotgun (salvo)",'4"','12"',"+1","-","4","-","2","4+","E","60","Knockback, Rapid Fire (1)","Goliath — cheaper than universal"),
+w("- Combat shotgun (shredder)","-","T","-","-","2","-","1","4+","E","-","Scattershot, Template",""),
+w("Stub cannon",'9"','18"',"-","-","5","-","1","3+","E","20","Knockback","Goliath only"),
+],
+"Pistol":[
+w("Goliath combi-pistol bolt/hand flamer (primary)",'6"','12"',"+1","-","4","-1","2","6+","E","-","Combi, Sidearm","Goliath only"),
+w("- Goliath combi-pistol (hand flamer secondary)","-","T","-","-","3","-","1","5+","E","110","Blaze, Combi, Template, Unstable",""),
+w("Goliath combi-pistol bolt/plasma (primary)",'6"','12"',"+1","-","4","-1","2","6+","E","-","Combi, Sidearm","Goliath only"),
+w("- Goliath combi-pistol (plasma secondary)",'6"','12"',"+2","-","5","-1","2","5+","E","80","Combi, Scarce, Sidearm",""),
+w("Goliath combi-pistol stub/plasma (primary)",'6"','12"',"+2","-","3","-","1","4+","E","-","Combi, Plentiful, Sidearm","Goliath only"),
+w("- Goliath combi-pistol (plasma secondary)",'6"','12"',"+2","-","5","-1","2","5+","E","40","Combi, Scarce, Sidearm",""),
+],
+"Special":[
+w("Goliath combi-weapon bolter/flamer (primary)",'12"','24"',"+1","-","4","-1","2","6+","E","-","Combi, Rapid Fire (1)","Goliath only"),
+w("- Goliath combi-weapon (flamer secondary)","-","T","-","-","4","-1","1","5+","E","175","Blaze, Combi, Template, Unstable",""),
+w("Goliath combi-weapon bolter/grenade launcher (primary)",'12"','24"',"+1","-","4","-1","2","6+","E","-","Combi, Rapid Fire (1)","Goliath only"),
+w("- Goliath combi-weapon (grenade launcher secondary)",'6"','24"',"-1","-","3","-","1","6+","E","80","Blast (3\"), Combi, Knockback",""),
+w("Goliath combi-weapon bolter/melta (primary)",'12"','24"',"+1","-","4","-1","2","6+","E","-","Combi, Rapid Fire (1)","Goliath only"),
+w("- Goliath combi-weapon (melta secondary)",'6"','12"',"+1","-","8","-4","3","4+","E","165","Combi, Melta, Scarce",""),
+w("Grenade launcher (frag)",'6"','24"',"-1","-","3","-","1","6+","E","55","Blast (3\"), Knockback","Goliath — cheaper than universal"),
+w("- Grenade launcher (krak)",'6"','24"',"-1","-","6","-2","2","6+","E","-","",""),
+w("- Grenade launcher (smoke)",'6"','24"',"-1","-","-","-","-","4+","C","+15","Blast (*), Smoke",""),
+w("- Grenade launcher (stun rounds)",'6"','18"',"-","-","2","-1","1","4+","E","+15","Concussion, Rapid Fire (1)",""),
+],
+"Heavy":[
+w("Assault grenade launchers (twin-linked, stun)",'6"','18"',"-","-","2","-1","1","4+","E","65","Concussion, Rapid Fire (1)","Goliath Forge-Born only"),
+w("- Assault grenade launchers (frag)",'6"','24"',"-1","-","3","-","1","6+","E","-","Blast (3\"), Knockback, Rapid Fire (1), Unstable",""),
+w("- Assault grenade launchers (krak)",'6"','24"',"-1","-","6","-2","2","6+","E","+30","",""),
+w("- Assault grenade launchers (smoke)",'6"','24"',"-1","-","-","-","-","4+","E","+20","Blast (*), Smoke",""),
+w("'Krumper' rivet cannon* (rapid fire)",'3"','9"',"+2","-","4","-1","2","3+","E","70","Rapid Fire (1), Rending, Two-handed","Goliath only"),
+w("- 'Krumper' rivet cannon* (super-heated)",'3"','9"',"+2","-","6","-2","2","3+","E","-","Blaze, Rending, Two-handed",""),
+],
+"Grenade":[
+w("Stun grenade","-","Sx3","-","-","2","-1","1","4+","R8","25","Blast (3\"), Concussion, Grenade","Goliath — more expensive than universal (15cr)"),
+w("Incendiary charge","-","Sx3","-","-","3","-","1","5+","R7","40","Blast (5\"), Blaze, Grenade","Goliath"),
+w("Melta bomb","-","Sx3","-","-1","8","-4","3","6+","R11","60","Demolitions, Grenade, Melta","Goliath"),
+],
+"Booby Trap":[],
+"Close Combat":[
+w("Brute cleaver","E","-","-","+1","S","-1","1","-","E","20","Disarm, Melee","Goliath only"),
+w("Chainaxe","E","-","-","+1","S+1","-1","1","-","E","25","Disarm, Melee, Parry, Rending","Goliath — cheaper than universal"),
+w("Ferocious jaws (Goliath Sumpkroc)","E","-","-","-","S","-1","1","-","-","-","Melee, Rending","Model only — not purchasable"),
+w("Fighting knife","E","-","-","-","S","-1","1","-","E","10","Backstab, Melee","Goliath — cheaper than universal"),
+w("Master-crafted 'Pulverizer' serrated axe","E","-","-","-","S+1","-1","1","-","E","+10","Master-crafted, Melee, Pulverise","Goliath only"),
+w("Master-crafted 'Renderizer' serrated axe*","E","-","-","-","S+2","-1","2","-","E","+10","Master-crafted, Melee, Pulverise, Unwieldy, Two-handed","Goliath only"),
+w("Master-crafted paired 'Pulverizers'*","E","-","-","-","S+1","-1","1","-","E","+10","Master-crafted, Melee, Paired, Pulverise, Unwieldy, Two-handed","Goliath only"),
+w("Master-crafted paired spud-jackers*","E","-","-","-","S+1","-","1","-","E","+10","Knockback, Master-crafted, Melee, Paired, Unwieldy, Two-handed","Goliath only"),
+w("Master-crafted spud-jacker","E","-","-","-","S+1","-","1","-","E","+5","Knockback, Master-crafted, Melee","Goliath only"),
+w("Mutated fists & bone spurs (Goliath 'Zerker)","E",'2"',"-","-","S+1","-2","2","-","-","+70","Knockback, Melee, Pulverise, Versatile","Model only — not purchasable"),
+w("Open fists (Goliath 'Zerker)","E","-","-","-","S","-1","1","-","-","-","Knockback, Melee","Model only — not purchasable"),
+w("Paired 'Pulverizers'*","E","-","-","-","S+1","-1","1","-","E","50","Melee, Paired, Pulverise, Unwieldy, Two-handed","Goliath only"),
+w("Paired spud-jackers*","E","-","-","-","S+1","-","1","-","E","25","Knockback, Melee, Paired, Unwieldy, Two-handed","Goliath only"),
+w("'Pulverizer' serrated axe","E","-","-","-","S+1","-1","1","-","E","30","Melee, Pulverise","Goliath only"),
+w("'Renderizer' serrated axe*","E","-","-","-","S+2","-1","2","-","E","40","Melee, Pulverise, Unwieldy, Two-handed","Goliath only"),
+w("Spud-jacker","E","-","-","-","S+1","-","1","-","E","15","Knockback, Melee","Goliath only"),
+]
+};
+
+
+const ESCHER_BAKED={
+"Basic":[
+w("Lasgun",'18"','24"',"+1","-","3","-","1","2+","C","5","Plentiful","Escher — cheaper than universal (15cr)"),
+w("Shotgun (acid ammo)",'4"','8"',"+1","-","3","-1","1","5+","-","+15","Blaze, Scattershot","Escher only"),
+w("Throwing knives","Sx2","Sx4","-","-1","-","-1","-","5+","C","5","Scarce, Silent, Toxin","Escher — cheaper than universal (10cr)"),
+
+w("Wyld bow",'9"','18"',"-","-1","3","-","-","4+","-","10","Silent","Escher only"),
+w("- Wyld bow (poison arrows)",'9"','18"',"-","-1","-","-","-","6+","-","+25","Scarce, Silent, Toxin",""),
+w("- Wyld bow (explosive arrows)",'9"','18"',"-","-1","2","-","1","6+","-","+20","Blast (3\"), Scarce, Unstable",""),
+w("- Wyld bow (acid arrows)",'9"','18"',"-","-1","3","-","1","6+","-","+20","Blaze, Scarce",""),
+],
+"Pistol":[
+w("Escher combi-bolt pistol (primary)",'6"','12"',"+1","-","4","-1","2","6+","-","+0","Combi, Sidearm","Escher only"),
+w("- Escher combi-pistol needle (secondary)",'4"','9"',"+2","-","-","-1","-","6+","-","60","Combi, Scarce, Sidearm, Silent, Toxin",""),
+
+w("Needle pistol",'4"','9"',"+2","-","-","-1","-","6+","R9","25","Scarce, Sidearm, Silent, Toxin","Escher — cheaper than universal (30cr)"),
+],
+"Special":[
+w("'Nightshade' chem-thrower","-","T","-","-","-","-","-","5+","-","135","Gas, Silent, Template","Escher only"),
+w("Chemical cloud (Khimerix)",'6"','12"',"+1","-","3","-1","1","-","-","-","Blast (3\")","Model only — not purchasable"),
+w("Escher combi-boltgun (primary)",'12"','24"',"+1","-","4","-1","2","6+","-","+0","Combi, Rapid Fire (1)","Escher only"),
+w("- Escher combi-weapon flamer (secondary)","-","T","-","-","4","-1","1","5+","-","180","Blaze, Combi, Template, Unstable",""),
+w("- Escher combi-weapon melta (secondary)",'6"','12"',"+1","-","8","-4","3","4+","-","170","Combi, Melta, Scarce",""),
+w("- Escher combi-weapon plasma (secondary)",'12"','24"',"+2","-","5","-1","2","5+","-","115","Combi, Rapid Fire (1), Scarce",""),
+w("- Escher combi-weapon needler (secondary)",'9"','18"',"+1","-","-","-1","-","6+","-","80","Combi, Scarce, Silent, Toxin",""),
+w("Gaseous eruption (Khimerix)","-","T","-","-","-","-","-","-","-","-","Gas, Template","Model only — not purchasable"),
+
+w("Needle rifle",'9"','18"',"+2","-","-","-2","-","6+","R9","35","Scarce, Silent, Toxin","Escher — cheaper than universal (40cr)"),
+],
+"Heavy":[
+],"Grenade":[
+w("Choke gas grenade","-","Sx3","-","-","-","-","-","5+","R9","45","Blast (3\"), Gas, Grenade",""),
+w("Scare gas grenade","-","Sx3","-","-","-","-","-","6+","R10","40","Blast (3\"), Fear, Gas, Grenade",""),
+w("Stun grenade","-","Sx3","-","-","2","-1","1","4+","R8","25","Blast (3\"), Concussion, Grenade",""),
+],"Booby Trap":[],
+"Close Combat":[
+w("Master-crafted shock whip","E",'3"',"-1","-","S+1","-","1","-","-","+10","Master-crafted, Melee, Shock, Versatile","Escher only"),
+w("Master-crafted stiletto sword","E","-","-","-","-","-1","-","-","-","+10","Master-crafted, Melee, Parry, Toxin","Escher only"),
+w("Power sword","E","-","-","-","S+1","-2","1","-","-","45","Melee, Parry, Power","Escher — cheaper than universal (50cr)"),
+w("Razor-sharp talons (Khimerix)","E","-","-","-","S+1","-2","3","-","-","-","Melee, Rending","Model only — not purchasable"),
+w("Shock whip","E",'3"',"-1","-","S+1","-","1","-","-","25","Melee, Shock, Versatile","Escher only"),
+w("Stiletto sword","E","-","-","-","-","-1","-","-","R9","30","Melee, Parry, Toxin","Escher — cheaper than universal (35cr)"),
+
+w("Talons (Khimerix & Phyrr Cat)","E","-","-","-","S","-1","2","-","-","-","Melee, Pulverise","Model only — not purchasable"),
+
+w("Venom claw","E","-","-","-","-","-2","-","-","-","30","Entangle, Toxin","Escher only"),]
+};
+
+const HOUSES=["Universal","Goliath","Escher","Van Saar","Orlock","Cawdor","Delaque","Enforcers","Corpse Grinder Cult","Slave Ogryns","Squats","Ash Wastes","Spyre Hunters","Malstrain Genestealers"];
+
+let state={house:"Universal",cat:"Basic",search:"",colFilters:{},sortCol:null,sortDir:1,editIdx:null,data:{},houseData:{}};
+
+const ORLOCK_BAKED={
+"Basic":[
+w("Combat shotgun (salvo)",'4"','12"',"+1","-","4","-","2","4+","E","55","Knockback, Rapid Fire (1)","Orlock — cheaper than universal"),
+w("- Combat shotgun (shredder)","-","T","-","-","2","-","1","4+","E","-","Scattershot, Template",""),
+w("Master-crafted boltgun",'12"','24"',"+1","-","4","-1","2","6+","E","+15","Master-crafted, Rapid Fire (1)","Orlock only"),
+],
+"Pistol":[
+w("Compact autopistol (gun skull)",'4"','12"',"+1","-","2","-","1","4+","E","-","Rapid Fire (1), Scarce","Orlock gun skull only"),
+w("Master-crafted bolt pistol",'6"','12"',"+1","-","4","-1","2","6+","E","+10","Master-crafted, Sidearm","Orlock only"),
+w("Master-crafted needle pistol",'4"','9"',"+2","-","-","-1","-","6+","E","-","Master-crafted, Scarce, Sidearm, Silent, Toxin","Orlock only"),
+w("Web pistol","-","T","-","-","4","-","-","6+","E","-","Silent, Template, Web","Orlock only"),
+],
+"Special":[
+w("Combi-weapon bolter/grenade launcher (primary)",'12"','24"',"+1","-","4","-1","2","6+","E","-","Combi, Rapid Fire (1)","Orlock only"),
+w("- Combi-weapon (grenade launcher secondary)",'6"','24"',"-1","-","3","-","1","6+","E","80","Blast (3\"), Combi, Knockback",""),
+w("Master-crafted long rifle",'24"','48"',"-","+1","4","-1","1","4+","E","-","Knockback, Master-crafted","Orlock only"),
+w("Storm-welder*",'8"','16"',"+1","-","5","-","1","3+","E","75","Rapid Fire (3), Reckless, Shock, Unstable, Two-handed","Orlock (Ogryn Brute only)"),
+],
+"Heavy":[
+w("Seismic cannon* (short wave)",'12"','24"',"-","-1","6","-1","2","5+","R10","140","Knockback, Rapid Fire (1), Seismic, Unwieldy, Two-handed",""),
+w("- Seismic cannon* (long wave)",'12"','24"',"-1","-","3","-","1","5+","R10","-","Knockback, Rapid Fire (2), Seismic, Unwieldy, Two-handed",""),
+w("Turret heavy stubber (burst fire)",'20"','40"',"-","-","4","-1","1","4+","E","-","Rapid Fire (1), Fixed","Orlock only"),
+w("- Turret heavy stubber (suppressive fire)",'12"','24"',"+1","-","4","-1","1","4+","E","-","Rapid Fire (3), Fixed, Unstable",""),
+],
+"Grenade":[
+w("Blasting charge","-","Sx2","-","-","5","-1","2","5+","R8","30","Blast (5\"), Grenade, Knockback","Orlock — cheaper than universal (35cr) — cheaper than universal"),
+w("Demo charge","-","Sx2","-","-","6","-3","3","*","R12","45","Blast (5\"), Grenade, Single Shot","Orlock — cheaper than universal (50cr) only"),
+w("Photon flash grenade","-","Sx3","-","-","-","-","-","5+","R9","15","Blast (5\"), Flash, Grenade",""),
+w("Scare gas grenade","-","Sx3","-","-","-","-","-","6+","R10","45","Blast (3\"), Fear, Gas, Grenade",""),
+],
+"Booby Trap":[],
+"Close Combat":[
+w("Arc hammer","E",'1"',"-","-","S+3","-1","3","-","E","-","Melee, Pulverise, Versatile","Orlock only"),
+w("Master-crafted fighting knife","E","-","-","-","S","-1","1","-","E","+5","Backstab, Master-crafted, Melee","Orlock only"),
+w("Servo claw","E","-","-","-","S+2","-","2","-","R10","30","Melee","Orlock — cheaper than universal"),
+w("Spud-jacker","E","-","-","-","S+1","-","1","-","E","-","Knockback, Melee","Orlock (Ogryn Brute only)"),
+]
+};
+
+const SLAVE_OGRYNS_BAKED={
+"Basic":[],"Pistol":[],"Special":[
+w("Storm-welder*",'8"','16"',"+1","-","5","-","1","3+","E","75","Rapid Fire (3), Reckless, Shock, Unstable, Two-handed","Slave Ogryns augmetic — equip at creation only"),
+],"Heavy":[],"Grenade":[
+w("Blasting charge","-","Sx2","-","-","5","-1","2","5+","R8","35","Blast (5\"), Grenade, Knockback",""),
+w("Demo charge","-","Sx2","-","-","6","-3","3","*","R12","50","Blast (5\"), Grenade, Single Shot","Slave Ogryns only"),
+w("Frag grenade","-","Sx3","-","-","3","-","1","4+","C","30","Blast (3\"), Grenade, Knockback",""),
+w("Incendiary charge","-","Sx3","-","-","3","-","1","5+","R7","40","Blast (5\"), Blaze, Grenade",""),
+],"Booby Trap":[],
+"Close Combat":[
+w("Arc welder","E","-","-","-","S+2","-3","3","-","E","50","Blaze, Melee","Slave Ogryns augmetic — equip at creation only"),
+w("Augmetic fist","E","-","-","-","S+1","-1","2","-","E","40","Knockback, Melee","Slave Ogryns augmetic — equip at creation only"),
+w("Brute cleaver","E","-","-","+1","S","-1","1","-","E","20","Disarm, Melee","Slave Ogryns / Goliath only"),
+w("Heavy rock cutter*","E","-","-","-","S+4","-4","3","-","R9","120","Melee, Unwieldy, Two-handed","Slave Ogryns — cheaper than universal (135cr)"),
+w("Heavy rock saw*","E","-","+1","-","S+3","-3","2","-","R9","110","Melee, Rending, Unwieldy, Two-handed","Slave Ogryns — cheaper than universal (120cr)"),
+w("Las cutter","E",'2"',"+1","-","9","-3","2","6+","R10","60","Melee, Scarce, Versatile","Slave Ogryns augmetic — equip at creation only"),
+w("Paired augmetic fists*","E","-","-","-","S+1","-1","2","-","E","70","Knockback, Melee, Paired, Unwieldy, Two-handed","Slave Ogryns augmetic — equip at creation only"),
+w("Spud-jacker","E","-","-","-","S+1","-","1","-","E","15","Knockback, Melee","Slave Ogryns / Goliath only"),
+w("- Two-handed hammer with exterminator","-","T","-","-","3","-1","1","*","E","+15","Blaze, Single Shot, Template","Cawdor exterminator upgrade"),
+]
+};
+
+function init(){
+  for(const k of CATS) state.data[k]=[...BAKED[k]];
+  for(const h of HOUSES){
+    state.houseData[h]={};
+    for(const k of CATS) state.houseData[h][k]=[];
+  }
+  for(const k of CATS) state.houseData["Cawdor"][k]=[...(CAWDOR_BAKED[k]||[])];
+  for(const k of CATS) state.houseData["Delaque"][k]=[...(DELAQUE_BAKED[k]||[])];
+  for(const k of CATS) state.houseData["Spyre Hunters"][k]=[...(SPYRE_HUNTERS_BAKED[k]||[])];
+  for(const k of CATS) state.houseData["Malstrain Genestealers"][k]=[...(MALSTRAIN_BAKED[k]||[])];
+  for(const k of CATS) state.houseData["Squats"][k]=[...(SQUATS_BAKED[k]||[])];
+  for(const k of CATS) state.houseData["Enforcers"][k]=[...(ENFORCERS_BAKED[k]||[])];
+  for(const k of CATS) state.houseData["Ash Wastes"][k]=[...(ASH_WASTES_BAKED[k]||[])];
+  for(const k of CATS) state.houseData["Corpse Grinder Cult"][k]=[...(CORPSE_GRINDER_BAKED[k]||[])];
+  for(const k of CATS) state.houseData["Van Saar"][k]=[...(VAN_SAAR_BAKED[k]||[])];
+  for(const k of CATS) state.houseData["Goliath"][k]=[...(GOLIATH_BAKED[k]||[])];
+  for(const k of CATS) state.houseData["Orlock"][k]=[...(ORLOCK_BAKED[k]||[])];
+  for(const k of CATS) state.houseData["Slave Ogryns"][k]=[...(SLAVE_OGRYNS_BAKED[k]||[])];
+  for(const k of CATS) state.houseData["Escher"][k]=[...(ESCHER_BAKED[k]||[])];
+  loadFromStorage();
+}
+
+async function loadFromStorage(){
+  for(const k of CATS){
+    try{const r=await window.storage.get("necro_final_"+k);if(r)state.data[k]=JSON.parse(r.value);}catch(e){}
+  }
+  for(const h of HOUSES){
+    for(const k of CATS){
+      try{const r=await window.storage.get("necro_house_"+h+"_"+k);if(r)state.houseData[h][k]=JSON.parse(r.value);}catch(e){}
+    }
+  }
+  render();
+}
+
+async function save(k){
+  if(state.house==="Universal"){
+    try{await window.storage.set("necro_final_"+k,JSON.stringify(state.data[k]));}catch(e){}
+  } else {
+    try{await window.storage.set("necro_house_"+state.house+"_"+k,JSON.stringify(state.houseData[state.house][k]));}catch(e){}
+  }
+}
+
+function getCurrentData(cat){
+  if(state.house==="Universal") return state.data[cat]||[];
+  return (state.houseData[state.house]||{})[cat]||[];
+}
+
+function setCurrentData(cat,data){
+  if(state.house==="Universal") state.data[cat]=data;
+  else state.houseData[state.house][cat]=data;
+}
+
+function alClass(al){
+  if(!al||al==="-")return"al al-x";
+  if(al==="E")return"al al-E";
+  if(al.startsWith("I"))return"al al-I";
+  if(al.startsWith("R"))return"al al-R";
+  if(al==="C"||al==="c")return"al al-C";
+  return"al al-x";
+}
+
+function getUniqueVals(key){
+  const vals=new Set();
+  getCurrentData(state.cat).forEach(w=>{
+    let v=(w[key]||"-").trim();
+    if(key==="credits") v=v.replace(/^\+/,"");
+    if(v&&v!=="-")vals.add(v);
+  });
+  if(key==="credits") return [...vals].sort((a,b)=>parseFloat(a)-parseFloat(b));
+  return [...vals].sort();
+}
+
+function render(){renderHouseTabs();renderHouseContent();}
+
+function renderHouseTabs(){
+  document.getElementById("house-tabs").innerHTML=HOUSES.map(h=>`<button class="house-tab${state.house===h?" active":""}" data-house="${h}" onclick="switchHouse('${h.replace(/'/g,"\\'")}')">${h}</button>`).join("");
+}
+
+function renderHouseContent(){
+  const isUniversal=state.house==="Universal";
+  const houseEntries=isUniversal?0:HOUSES.filter(h=>h!=="Universal").reduce((n,h)=>n+CATS.reduce((m,k)=>m+(state.houseData[h][k]||[]).length,0),0);
+  const currentEntries=isUniversal?0:CATS.reduce((n,k)=>n+getCurrentData(k).length,0);
+
+  if(!isUniversal&&currentEntries===0){
+    document.getElementById("house-content").innerHTML=`
+      <div class="cat-tabs" id="cat-tabs"></div>
+      <div class="toolbar">
+        <input type="text" id="search" placeholder="Search name, traits, notes..." />
+        <button class="btn primary" id="add-btn">+ Add</button>
+      </div>
+      <div class="col-filters" id="col-filters"></div>
+      <div id="active-filters" class="filter-row"></div>
+      <div class="table-wrap">
+        <table><thead id="thead"></thead><tbody id="tbody"></tbody></table>
+      </div>`;
+    bindToolbar();
+  } else if(!document.getElementById("cat-tabs")){
+    document.getElementById("house-content").innerHTML=`
+      <div class="cat-tabs" id="cat-tabs"></div>
+      <div class="toolbar">
+        <input type="text" id="search" placeholder="Search name, traits, notes..." />
+        <button class="btn primary" id="add-btn">+ Add</button>
+      </div>
+      <div class="col-filters" id="col-filters"></div>
+      <div id="active-filters" class="filter-row"></div>
+      <div class="table-wrap">
+        <table><thead id="thead"></thead><tbody id="tbody"></tbody></table>
+      </div>`;
+    bindToolbar();
+  }
+  renderCatTabs();renderColFilters();renderActiveFilters();renderTable();
+}
+
+function bindToolbar(){
+  document.getElementById("search").oninput=e=>{state.search=e.target.value;renderTable();};
+  document.getElementById("add-btn").onclick=()=>openModal(null,null);
+}
+
+function renderCatTabs(){
+  const el=document.getElementById("cat-tabs");
+  if(!el)return;
+  el.innerHTML=CATS.map(c=>`<button class="cat-tab${state.cat===c?" active":""}" onclick="switchCat('${c}')">${c} <span style="font-size:10px;opacity:0.7">${getCurrentData(c).length}</span></button>`).join("");
+}
+
+function renderColFilters(){
+  const el=document.getElementById("col-filters");
+  if(!el)return;
+  el.innerHTML=`<span style="font-size:11px;color:var(--color-text2);margin-right:4px">Filter by:</span>`+
+  FILTERABLE.map(key=>{
+    const vals=getUniqueVals(key);
+    const cur=state.colFilters[key]||"";
+    return `<select style="font-size:12px;padding:4px 8px" onchange="setColFilter('${key}',this.value)">
+      <option value="">${FILTER_LABELS[key]}</option>
+      ${vals.map(v=>`<option value="${v}"${v===cur?" selected":""}>${v}</option>`).join("")}
+    </select>`;
+  }).join("")+
+  `<span class="key-box"><strong>*</strong> Unwieldy (two-handed) — takes up 2 weapons on fighter card</span>`;
+}
+
+function renderActiveFilters(){
+  const el=document.getElementById("active-filters");
+  if(!el)return;
+  const active=Object.entries(state.colFilters).filter(([k,v])=>v);
+  if(!active.length){el.innerHTML="";return;}
+  el.innerHTML=active.map(([k,v])=>`<span class="filter-pill" onclick="clearColFilter('${k}')"><span>${FILTER_LABELS[k]}: ${v}</span><span style="font-size:12px;margin-left:2px">×</span></span>`).join("")+
+  `<button class="btn" style="font-size:11px;padding:2px 8px" onclick="clearAllFilters()">Clear all</button>`;
+}
+
+function setColFilter(key,val){state.colFilters[key]=val;renderColFilters();renderActiveFilters();renderTable();}
+function clearColFilter(key){delete state.colFilters[key];renderColFilters();renderActiveFilters();renderTable();}
+function clearAllFilters(){state.colFilters={};renderColFilters();renderActiveFilters();renderTable();}
+
+function getFiltered(){
+  const q=state.search.toLowerCase();
+  if(q){
+    let results=[];
+    for(const cat of CATS){
+      const data=getCurrentData(cat);
+      const catResults=[];
+      let includeNext=false;
+      for(let i=0;i<data.length;i++){
+        const w=data[i];
+        const isSub=w.name.startsWith("-");
+        const matches=Object.values(w).some(v=>String(v).toLowerCase().includes(q));
+        if(!isSub){
+          // Check if this parent matches, or if any of its children match
+          let childMatch=false;
+          for(let j=i+1;j<data.length;j++){
+            if(!data[j].name.startsWith("-"))break;
+            if(Object.values(data[j]).some(v=>String(v).toLowerCase().includes(q))){childMatch=true;break;}
+          }
+          includeNext=matches||childMatch;
+          if(includeNext){
+            const passFilter=Object.entries(state.colFilters).every(([key,val])=>!val||String(w[key]||"").trim()===val);
+            if(passFilter)catResults.push({...w,_cat:cat});
+          }
+        } else {
+          // Sub-entry: include if parent is included OR if it matches itself
+          if(includeNext||matches){
+            const passFilter=Object.entries(state.colFilters).every(([key,val])=>!val||String(w[key]||"").trim()===val);
+            if(passFilter)catResults.push({...w,_cat:cat});
+          }
+        }
+      }
+      results=results.concat(catResults);
+    }
+    return results;
+  }
+  return getCurrentData(state.cat).filter(w=>{
+    for(const[key,val]of Object.entries(state.colFilters)){
+      if(!val)continue;
+      const wval=key==="credits"?String(w[key]||"").trim().replace(/^\+/,""):String(w[key]||"").trim();
+      if(wval!==val)return false;
+    }
+    return true;
+  });
+}
+
+function getSorted(rows){
+  if(!state.sortCol)return rows;
+  const key=COL_KEYS[state.sortCol];
+  return [...rows].sort((a,b)=>{
+    const av=String(a[key]||"").toLowerCase();
+    const bv=String(b[key]||"").toLowerCase();
+    const an=parseFloat(av.replace(/[^0-9.\-]/g,""));
+    const bn=parseFloat(bv.replace(/[^0-9.\-]/g,""));
+    if(!isNaN(an)&&!isNaN(bn))return(an-bn)*state.sortDir;
+    return av.localeCompare(bv)*state.sortDir;
+  });
+}
+
+function getUniversalPriceMap(){
+  const map={};
+  for(const k of CATS){
+    for(const w of (state.data[k]||[])){
+      if(w.name&&w.credits) map[w.name]=w.credits;
+    }
+  }
+  return map;
+}
+
+function renderTable(){
+  const el=document.getElementById("tbody");
+  const thel=document.getElementById("thead");
+  const cl=document.getElementById("count-label");
+  if(!el||!thel)return;
+  const filtered=getFiltered();
+  const rows=getSorted(filtered);
+  const isGlobal=!!state.search;
+  const total=isGlobal?CATS.reduce((n,k)=>n+getCurrentData(k).length,0):getCurrentData(state.cat).length;
+  if(cl)cl.textContent=rows.length===total?`${total} entries`:`${rows.length} of ${total}`;
+  const displayCols=isGlobal?["Category",...COLS]:COLS;
+  thel.innerHTML=`<tr>${displayCols.map((c,i)=>{
+    const sortI=isGlobal?i-1:i;
+    const isSorted=state.sortCol===sortI&&sortI>=0;
+    const icon=isSorted?(state.sortDir===1?"▲":"▼"):"▲";
+    const clickable=isGlobal&&i===0?"":` onclick="toggleSort(${sortI})"`;
+    return`<th class="${isSorted?(state.sortDir===1?"sort-asc":"sort-desc"):""}"${clickable}>${c}${i>0||!isGlobal?`<span class="sort-icon">${icon}</span>`:""}</th>`;
+  }).join("")}<th></th></tr>`;
+  if(!rows.length){
+    const isEmpty=total===0&&state.house!=="Universal";
+    el.innerHTML=`<tr><td colspan="${displayCols.length+1}" class="empty">${isEmpty?`No ${state.house} weapons yet — click <strong>+ Add</strong> to add house-specific entries`:"No results"}</td></tr>`;
+    return;
+  }
+  const uniPrices=state.house!=="Universal"?getUniversalPriceMap():{};
+  let mainCount=0;
+  el.innerHTML=rows.map((w)=>{
+    const chk=CHECK.includes(w.name);
+    const isSub=w.name.startsWith("-");
+    if(!isSub)mainCount++;
+    const highlight=!isSub&&(mainCount%2===1);
+    const highlightEven=!isSub&&(mainCount%2===0);
+    const catCell=isGlobal?`<td style="font-size:11px;color:var(--color-text2);white-space:nowrap">${w._cat||""}</td>`:"";
+    const uniPrice=uniPrices[w.name];
+    const houseCredits=parseFloat(w.credits);
+    const uniCredits=parseFloat(uniPrice);
+    const isCheaper=state.house!=="Universal"&&uniPrice!==undefined&&!isNaN(houseCredits)&&!isNaN(uniCredits)&&houseCredits<uniCredits;
+    const isPricier=state.house!=="Universal"&&uniPrice!==undefined&&!isNaN(houseCredits)&&!isNaN(uniCredits)&&houseCredits>uniCredits;
+    const creditsCell=`${w.credits||"-"}${isCheaper?`<span class="cheaper-badge" title="Cheaper than universal (${uniPrice} cr)"></span>`:""}${isPricier?`<span class="pricier-badge" title="More expensive than universal (${uniPrice} cr)"></span>`:""}`;
+    return`<tr class="${highlight?"main-entry":highlightEven?"main-entry-even":""}">
+      ${catCell}
+      <td style="font-weight:${isSub?"400":"500"};color:${isSub?"var(--color-text2)":"var(--color-text)"}">${w.name}${chk?`<span class="check-badge">check</span>`:""}</td>
+      <td>${w.rangeS||"-"}</td><td>${w.rangeL||"-"}</td><td>${w.accS||"-"}</td><td>${w.accL||"-"}</td>
+      <td>${w.str||"-"}</td><td>${w.ap||"-"}</td><td>${w.dmg||"-"}</td><td>${w.am||"-"}</td>
+      <td><span class="${alClass(w.al)}">${w.al||"-"}</span></td>
+      <td>${creditsCell}</td>
+      <td class="wrap" style="white-space:normal;max-width:200px;font-size:11px;color:var(--color-text2)">${w.traits||""}</td>
+      <td style="font-size:11px;color:var(--color-text2);max-width:100px;overflow:hidden;text-overflow:ellipsis">${w.notes||""}</td>
+      <td><button class="btn" style="padding:2px 8px;font-size:11px" onclick="openEdit('${w.name.replace(/'/g,"\\'")}','${(w.traits||"").replace(/'/g,"\\'")}','${w._cat||state.cat}')">Edit</button></td>
+    </tr>`;
+  }).join("");
+}
+
+function toggleSort(i){
+  if(state.sortCol===i)state.sortDir*=-1;
+  else{state.sortCol=i;state.sortDir=1;}
+  renderTable();
+}
+
+function switchHouse(h){
+  state.house=h;state.cat="Basic";state.search="";state.colFilters={};state.sortCol=null;state.sortDir=1;
+  renderHouseTabs();
+  document.getElementById("house-content").innerHTML=`
+    <div class="cat-tabs" id="cat-tabs"></div>
+    <div class="toolbar">
+      <input type="text" id="search" placeholder="Search name, traits, notes..." />
+      <button class="btn primary" id="add-btn">+ Add</button>
+    </div>
+    <div class="col-filters" id="col-filters"></div>
+    <div id="active-filters" class="filter-row"></div>
+    <div class="table-wrap">
+      <table><thead id="thead"></thead><tbody id="tbody"></tbody></table>
+    </div>`;
+  bindToolbar();
+  renderCatTabs();renderColFilters();renderActiveFilters();renderTable();
+}
+
+function switchCat(c){state.cat=c;state.search="";state.colFilters={};state.sortCol=null;state.sortDir=1;const s=document.getElementById("search");if(s)s.value="";renderColFilters();renderActiveFilters();renderCatTabs();renderTable();}
+
+function openModal(w,ri){
+  state.editIdx=ri;
+  const d=w||{};
+  document.getElementById("modal-title").textContent=w?`Edit weapon`:`Add${state.house!=="Universal"?" "+state.house:""} weapon`;
+  document.getElementById("m-delete").style.display=w?"inline-block":"none";
+  const F=(k,l,v,ph="")=>`<div class="field"><label>${l}</label><input id="f_${k}" type="text" value="${String(v||"").replace(/"/g,"&quot;")}" placeholder="${ph}"></div>`;
+  document.getElementById("modal-fields").innerHTML=`
+    ${F("name","Name",d.name,"")}
+    <div class="field-row">${F("rangeS","Short range",d.rangeS,"-")}${F("rangeL","Long range",d.rangeL,"-")}${F("accS","Acc S",d.accS,"-")}${F("accL","Acc L",d.accL,"-")}</div>
+    <div class="field-row">${F("str","S",d.str,"-")}${F("ap","AP",d.ap,"-")}${F("dmg","D",d.dmg,"-")}${F("am","Am",d.am,"-")}</div>
+    <div class="field-row">${F("al","AV",d.al,"-")}${F("credits","Credits",d.credits,"-")}</div>
+    <div class="field"><label>Traits</label><textarea id="f_traits">${d.traits||""}</textarea></div>
+    <div class="field"><label>Notes</label><input id="f_notes" type="text" value="${String(d.notes||"").replace(/"/g,"&quot;")}"></div>`;
+  document.getElementById("modal-bg").classList.add("open");
+}
+
+function openEdit(name,traits,cat){
+  const editCat=cat||state.cat;
+  const data=getCurrentData(editCat);
+  const ri=data.findIndex(x=>x.name===name&&x.traits===traits);
+  if(ri<0)return;
+  const prevCat=state.cat;
+  state.cat=editCat;
+  openModal(data[ri],ri);
+  state.cat=prevCat;
+}
+
+document.getElementById("m-cancel").onclick=closeModal;
+document.getElementById("modal-bg").onclick=e=>{if(e.target===document.getElementById("modal-bg"))closeModal();};
+document.getElementById("m-save").onclick=async()=>{
+  const g=k=>{const el=document.getElementById("f_"+k);return el?el.value.trim():"";};
+  const wn={name:g("name"),rangeS:g("rangeS"),rangeL:g("rangeL"),accS:g("accS"),accL:g("accL"),str:g("str"),ap:g("ap"),dmg:g("dmg"),am:g("am"),al:g("al"),credits:g("credits"),traits:g("traits"),notes:g("notes")};
+  if(!wn.name){document.getElementById("f_name").style.borderColor="var(--color-border-danger)";return;}
+  const data=[...getCurrentData(state.cat)];
+  if(state.editIdx!==null&&state.editIdx!==undefined)data[state.editIdx]=wn;
+  else data.push(wn);
+  setCurrentData(state.cat,data);
+  await save(state.cat);
+  closeModal();renderCatTabs();renderTable();
+};
+document.getElementById("m-delete").onclick=async()=>{
+  if(!confirm("Delete this weapon?"))return;
+  setCurrentData(state.cat,getCurrentData(state.cat).filter((_,i)=>i!==state.editIdx));
+  await save(state.cat);
+  closeModal();renderCatTabs();renderTable();
+};
+function closeModal(){document.getElementById("modal-bg").classList.remove("open");state.editIdx=null;}
+init();
+</script>
+</body>
+</html>
